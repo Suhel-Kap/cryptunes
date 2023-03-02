@@ -2,19 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -27,4 +14,19 @@ a {
     color: white;
     background: black;
   }
+}
+
+.rainbow-mesh {
+  background-color: hsla(0, 100%, 50%, 1);
+  background-image: linear-gradient(295deg, #e94560 0%, #533483 33%, #0f3460 66%, #16213e 100%);
+}
+
+.candy-mesh {
+  background-color: #ff99ee;
+  background-image: linear-gradient(295deg, #e94560 0%, #533483 33%, #0f3460 66%, #16213e 100%);
+}
+
+.glass {
+  backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.4);
 }
