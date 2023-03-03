@@ -1,0 +1,55 @@
+import styles from "@/styles/header.module.css"
+import clsx from "clsx";
+import makeBlockie from "ethereum-blockies-base64";
+import Link from "next/link";
+import {useAccount} from "wagmi";
+import Connect from "@/components/Conenct";
+
+export default function Header() {
+    const {isConnected, isDisconnected, address} = useAccount()
+
+    return (
+        <div className="navbar navbar-sticky rounded-2xl" style={{background: "transparent"}}>
+            <div className={clsx("navbar-start", styles.title)}>
+                <Link className="navbar-item" href={"/"} prefetch>
+                    Cryptunes
+                </Link>
+            </div>
+            <div className="navbar-center">
+                <Link className="navbar-item link link-ghost" href="/create">
+                    Create
+                </Link>
+                <Link className="navbar-item link link-ghost" href="/discussions">
+                    Discussions
+                </Link>
+                <Link className="navbar-item link link-ghost" href="/explore">
+                    Explore
+                </Link>
+            </div>
+            <div className="navbar-end">
+                {isConnected && (
+                    <div className="avatar avatar-ring avatar-md">
+                        <div className="dropdown-container">
+                            <div className="dropdown">
+                                <label className="btn btn-ghost flex cursor-pointer px-0" tabIndex={0}>
+                                    <img src={makeBlockie(address as string)} className="rounded-full" alt="avatar"/>
+                                </label>
+                                <div className="dropdown-menu dropdown-menu-bottom-left">
+                                    <Link href={"/my-profile"} className="dropdown-item text-sm">
+                                        My Profile
+                                    </Link>
+                                    {isConnected && (
+                                        <Connect/>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {isDisconnected && (
+                    <Connect/>
+                )}
+            </div>
+        </div>
+    )
+}

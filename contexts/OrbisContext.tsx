@@ -26,7 +26,11 @@ export const OrbisProvider = ({ children }: any) => {
             logout()
         }
         if (!user && isConnecting) {
-            connect()
+            checkUserIsConnected().then((res) => {
+                if(res === false){
+                    connect()
+                }
+            })
         }
     }, [user, isConnected, isConnecting, isDisconnected]);
 
@@ -79,6 +83,7 @@ export const OrbisProvider = ({ children }: any) => {
         }
     }
 
+    console.log("User: ", user)
 
     return (
         <OrbisContext.Provider value={{

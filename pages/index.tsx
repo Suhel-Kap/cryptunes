@@ -13,6 +13,7 @@ const Home: NextPage = () => {
       </Head>
         <Layout>
             <Connect />
+            <p>Hello</p>
         </Layout>
     </>
   )
