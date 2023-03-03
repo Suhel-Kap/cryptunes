@@ -2,7 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import {useAccount} from "wagmi";
 // @ts-ignore
 import {Orbis} from "@orbisclub/orbis-sdk"
-export const OrbisContext = React.createContext({})
+export const OrbisContext = React.createContext({
+    user: null,
+    orbis: null,
+    GROUP_ID: "",
+    CHANNEL_ID: "",
+})
 
 export const useOrbisContext = () => useContext(OrbisContext)
 

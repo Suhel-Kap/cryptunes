@@ -3,11 +3,11 @@ import Header from "@/components/Header";
 
 export default function Layout({children}: any) {
     return (
-        <div className="rainbow-mesh h-screen w-auto p-2">
-        <GlassPane className="w-full h-screen flex items-center overflow-auto hide-scrollbar justify-center">
-            <Header />
-            {children}
-        </GlassPane>
+        <div className="rainbow-mesh w-auto p-2 flex flex-col h-screen">
+            <Header/>
+            <GlassPane className="w-full h-screen flex justify-center overflow-auto hide-scrollbar">
+                {children}
+            </GlassPane>
         </div>
     )
 }

@@ -9,7 +9,7 @@ export default function Header() {
     const {isConnected, isDisconnected, address} = useAccount()
 
     return (
-        <div className="navbar navbar-sticky rounded-2xl" style={{background: "transparent"}}>
+        <div className="navbar rounded-2xl mb-4 sticky top-0 z-10" style={{background: "transparent"}}>
             <div className={clsx("navbar-start", styles.title)}>
                 <Link className="navbar-item" href={"/"} prefetch>
                     Cryptunes
