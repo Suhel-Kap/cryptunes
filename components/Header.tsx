@@ -16,13 +16,13 @@ export default function Header() {
                 </Link>
             </div>
             <div className="navbar-center">
-                <Link className="navbar-item link link-ghost" href="/create">
+                <Link className="navbar-item link hover:bg-fuchsia-300" style={{color: "white"}} href="/create">
                     Create
                 </Link>
-                <Link className="navbar-item link link-ghost" href="/discussions">
+                <Link className="navbar-item link hover:bg-fuchsia-300" style={{color: "white"}} href="/discussions">
                     Discussions
                 </Link>
-                <Link className="navbar-item link link-ghost" href="/explore">
+                <Link className="navbar-item link hover:bg-fuchsia-300" style={{color: "white"}} href="/explore">
                     Explore
                 </Link>
             </div>

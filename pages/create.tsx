@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Layout from "@/components/Layout";
 import CreateSpaceCard from "@/components/CreateSpaceCard";
+import Accordion from "@/components/Accordion";
 
 export default function CreateNFT() {
     return (
@@ -14,9 +15,7 @@ export default function CreateNFT() {
                 <div className="flex flex-col justify-center items-center w-full h-auto absolute top-11">
                     <CreateSpaceCard/>
                     <div className="divider"></div>
-                    <CreateSpaceCard />
-                    <div className="divider"></div>
-                    <CreateSpaceCard />
+                    <Accordion />
                 </div>
             </Layout>
         </>
