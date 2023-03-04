@@ -90,7 +90,7 @@ export const useContract = () => {
     }
 
     const getCollections =async () => {
-        return await contract.getCollections()
+        return await contract.getCollectionsInfo()
     }
 
     const getCollectionMaxCap = async(spaceName: string) => {
@@ -105,11 +105,16 @@ export const useContract = () => {
         return await contract.isArtistForCollections(artistAddress)
     }
 
+    const tokenMetadata = async(tokenID: number) => {
+        return await contract.uri(tokenID)
+    }
+
 
     return {
         getCurrentTokenId,
         setTokenMintPrice,
         spaceExists,
+        tokenMetadata,
         getCollections,
         getcollectionTokens,
         isArtistForCollections,
