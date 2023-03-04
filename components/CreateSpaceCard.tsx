@@ -22,6 +22,11 @@ export default function CreateSpaceCard() {
         reader.readAsDataURL(selectedFile);
     }
 
+    const handleSubmit = async(e: any) => {
+        e.preventDefault()
+
+    }
+
     return (
         <div className="card bg-rose-100" style={{maxWidth: "35rem"}}>
             <div className="mx-auto flex w-full max-w-sm flex-col gap-1">
@@ -30,7 +35,7 @@ export default function CreateSpaceCard() {
                     <p className="text-sm text-slate-100">Make sure you mint a space before minting an NFT</p>
                 </div>
                 <div className="card-body form-group pt-0.5">
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="form-field my-2">
                             <label className="block text-sm font-medium text-slate-700">
                                 Name <span className="text-pink-600">*</span>

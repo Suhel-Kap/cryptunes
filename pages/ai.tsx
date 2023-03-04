@@ -5,8 +5,15 @@ import Image from "next/image";
 
 export default function AI() {
     const [prompt, setPrompt] = useState<string>("")
+    const [form, setForm] = useState({
+        name: "",
+        description: "",
+        space: "",
+        price: "",
+        quantity: "",
+    })
     const [generating, setGenerating] = useState<boolean>(false)
-    const [image, setImage] = useState<string>("https://oaidalleapiprodscus.blob.core.windows.net/private/org-UMNeTQLZXViSIi0ShaDqGXYi/user-PZIJWaU5vtlmaFsCmh0AzFAO/img-iPQj4A3Wk1tIKnvkGwpK7Yp2.png?st=2023-03-04T07%3A58%3A53Z&se=2023-03-04T09%3A58%3A53Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-03-03T17%3A00%3A29Z&ske=2023-03-04T17%3A00%3A29Z&sks=b&skv=2021-08-06&sig=IvolsaBBN%2BrVZC%2B4M7uqgTSDsDJDwOog79GKtG8CQGg%3D")
+    const [image, setImage] = useState<string>("")
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
@@ -22,6 +29,21 @@ export default function AI() {
         const data = await res.json()
         setImage(data.name)
         setGenerating(false)
+    }
+
+    const handleFormSubmit = async (e: any) => {
+        e.preventDefault()
+        console.log(form)
+        console.log(image)
+        const res = await fetch("/api/uploadToIpfs", {
+            method: "POST",
+            body: JSON.stringify({image, name: form.name, description: form.description}),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const data = await res.json()
+        console.log(data)
     }
 
     return (
@@ -68,8 +90,78 @@ export default function AI() {
                         </form>
                         {
                             image &&
-                            <div>
+                            <div className="flex flex-col">
                                 <Image src={image} alt={"Generated image"} height={512} width={512} />
+                                <form onSubmit={handleFormSubmit}>
+                                    <div className="form-field my-2">
+                                        <label className="block text-sm font-medium text-slate-500">
+                                            Name <span className="text-pink-600">*</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            required
+                                            placeholder="Name"
+                                            className="block w-full px-3 py-2 bg-white text-slate-200 rounded-md text-sm shadow-sm"
+                                            value={form.name}
+                                            onChange={(e) => setForm({...form, name: e.target.value})}
+                                        />
+                                    </div>
+                                    <div className="form-field my-2">
+                                        <label className="block text-sm font-medium text-slate-500">
+                                            Description <span className="text-pink-600">*</span>
+                                        </label>
+                                        <textarea
+                                            placeholder="Description"
+                                            className="block w-full px-3 py-2 bg-white text-slate-200 rounded-md text-sm shadow-sm textarea-block"
+                                            value={form.description}
+                                            onChange={(e) => setForm({...form, description: e.target.value})}
+                                        />
+                                    </div>
+                                    <div className="form-field my-2">
+                                        <label className="block text-sm font-medium text-slate-500">
+                                            Space Name <span className="text-pink-600">*</span>
+                                        </label>
+                                        <select required className="select border-0 px-3 py-2 bg-white text-slate-200 rounded-md text-sm shadow-sm"
+                                                onChange={(e) => setForm({...form, space: e.target.value})}
+                                        >
+                                            <option value="space-1">Space 1</option>
+                                            <option value="space-2">Space 2</option>
+                                            <option value="space-3">Space 3</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-field my-2">
+                                        <label className="block text-sm font-medium text-slate-500">
+                                            Price <span className="text-pink-600">*</span>
+                                        </label>
+                                        <input
+                                            type="number"
+                                            min={0}
+                                            step={0.1}
+                                            required
+                                            placeholder="Price"
+                                            className="block w-full px-3 py-2 bg-white text-slate-200 rounded-md text-sm shadow-sm"
+                                            value={form.price}
+                                            onChange={(e) => setForm({...form, price: e.target.value})}
+                                        />
+                                    </div>
+                                    <div className="form-field my-2">
+                                        <label className="block text-sm font-medium text-slate-500">
+                                            Quantity <span className="text-pink-600">*</span>
+                                        </label>
+                                        <input
+                                            type="number"
+                                            min={1}
+                                            required
+                                            placeholder="Quantity"
+                                            className="block w-full px-3 py-2 bg-white text-slate-200 rounded-md text-sm shadow-sm"
+                                            value={form.quantity}
+                                            onChange={(e) => setForm({...form, quantity: e.target.value})}
+                                        />
+                                    </div>
+                                    <div className="form-control">
+                                        <button type="submit" className="btn bg-pink-600 w-full">Create</button>
+                                    </div>
+                                </form>
                             </div>
                         }
                     </div>
