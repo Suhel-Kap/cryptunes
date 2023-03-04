@@ -59,13 +59,17 @@ export const useContract = () => {
         return await tx.wait()
     }
 
+    const getMintPrice = async (tokenid:number) => {
+        return await contract.getTokenMintPrice(tokenid)
+    }
+
 
     const spaceExists = async (spaceName: string) => {
         return await contract.collectionExists(spaceName)
     }
 
-    const mintSpace = async (spaceName: string, groupId: string, imageCid: string) => {
-        const tx = await contract.createCollection(spaceName, groupId, imageCid,{value: ethers.utils.parseEther("0.01"), gasLimit: 1000000})
+    const mintSpace = async (spaceName: string, groupId: string, collectionSupply: number) => {
+        const tx = await contract.createCollection(spaceName, groupId, collectionSupply,{value: ethers.utils.parseEther("0.01"), gasLimit: 1000000})
         return await tx.wait()
     }
 
@@ -85,12 +89,33 @@ export const useContract = () => {
         return await contract.isCollectionArtist(spaceName, address)
     }
 
+    const getCollections =async () => {
+        return await contract.getCollections()
+    }
+
+    const getCollectionMaxCap = async(spaceName: string) => {
+        return await contract.getCollectionMaxCap(spaceName)
+    }
+
+    const getcollectionTokens =async (collectionName:string) => {
+        return await contract.getcollectionTokens(collectionName)
+    }
+
+    const isArtistForCollections =async (artistAddress:string) => {
+        return await contract.isArtistForCollections(artistAddress)
+    }
+
 
     return {
         getCurrentTokenId,
         setTokenMintPrice,
         spaceExists,
+        getCollections,
+        getcollectionTokens,
+        isArtistForCollections,
+        getCollectionMaxCap,
         mintSpace,
+        getMintPrice,
         mint,
         isSpaceArtist,
         deleteSpaceArtist,
