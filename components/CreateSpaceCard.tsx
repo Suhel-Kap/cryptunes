@@ -27,7 +27,7 @@ export default function CreateSpaceCard() {
             <div className="mx-auto flex w-full max-w-sm flex-col gap-1">
                 <div className="card-header mx-auto" style={{marginTop: "2.5rem", flexDirection: "column"}}>
                     <h2 className="text-stone-900">Create Space</h2>
-                    <p className="text-sm text-neutral">Make sure you mint a space before minting an NFT</p>
+                    <p className="text-sm text-slate-100">Make sure you mint a space before minting an NFT</p>
                 </div>
                 <div className="card-body form-group pt-0.5">
                     <form>

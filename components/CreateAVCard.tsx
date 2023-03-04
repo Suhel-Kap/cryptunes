@@ -21,7 +21,7 @@ export default function CreateAVCard() {
             <div className="mx-auto flex w-full max-w-sm flex-col gap-1">
                 <div className="card-header mx-auto" style={{marginTop: "2.5rem", flexDirection: "column"}}>
                     <h2 className="text-stone-900">Create Dynamic Audio NFT</h2>
-                    <p className="text-sm text-neutral text-center">You can check out the NFTs below, they will dance according to the sound you choose after creating.</p>
+                    <p className="text-sm text-slate-100 text-center">You can check out the NFTs below, they will dance according to the sound you choose after creating.</p>
                 </div>
                 <div className="card-body form-group pt-0.5">
                     <form onSubmit={handleSubmit}>

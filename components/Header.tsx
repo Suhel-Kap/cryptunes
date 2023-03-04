@@ -11,13 +11,16 @@ export default function Header() {
     return (
         <div className="navbar rounded-2xl mb-4 sticky top-0 z-10" style={{background: "transparent"}}>
             <div className={clsx("navbar-start", styles.title)}>
-                <Link className="navbar-item" href={"/"} prefetch>
+                <Link className="navbar-item" href={"/"}>
                     Cryptunes
                 </Link>
             </div>
             <div className="navbar-center">
                 <Link className="navbar-item link hover:bg-fuchsia-300" style={{color: "white"}} href="/create">
                     Create
+                </Link>
+                <Link className="navbar-item link hover:bg-fuchsia-300 underline decoration-orange-500" style={{color: "white"}} href="/ai">
+                    AI NFT
                 </Link>
                 <Link className="navbar-item link hover:bg-fuchsia-300" style={{color: "white"}} href="/discussions">
                     Discussions

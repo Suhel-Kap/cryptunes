@@ -36,7 +36,7 @@ export default function CreateAudioCard() {
             <div className="mx-auto flex w-full max-w-sm flex-col gap-1">
                 <div className="card-header mx-auto" style={{marginTop: "2.5rem", flexDirection: "column"}}>
                     <h2 className="text-stone-900">Create Audio NFT</h2>
-                    <p className="text-sm text-neutral text-center">
+                    <p className="text-sm text-slate-100 text-center">
                         Make sure you mint a space before minting an NFT
                     </p>
                 </div>
