@@ -1,8 +1,19 @@
 import Head from "next/head";
 import Layout from "@/components/Layout";
 import SpaceCard from "@/components/SpaceCard";
+import {useEffect, useState} from "react";
 
 export default function Explore(){
+    const [collections, setCollections] = useState<{name: string, groupId: string}[]>([])
+    useEffect(() => {
+        fetch("/api/getSpaces", {
+            method: "GET"
+        }).then(res => res.json()).then(data => {
+            const collections = JSON.parse(data)
+            setCollections(collections)
+        })
+    }, [])
+
     return (
         <>
             <Head>
@@ -12,14 +23,9 @@ export default function Explore(){
             </Head>
             <Layout>
                 <div className="grid gap-5 grid-cols-3 p-5">
-                    <SpaceCard />
-                    <SpaceCard />
-                    <SpaceCard />
-                    <SpaceCard />
-                    <SpaceCard />
-                    <SpaceCard />
-                    <SpaceCard />
-                    <SpaceCard />
+                    {collections.map((collection, index) => (
+                        <SpaceCard key={index} collection={collection} />
+                    ))}
                 </div>
             </Layout>
         </>

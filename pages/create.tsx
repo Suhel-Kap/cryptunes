@@ -2,8 +2,18 @@ import Head from "next/head";
 import Layout from "@/components/Layout";
 import CreateSpaceCard from "@/components/CreateSpaceCard";
 import Accordion from "@/components/Accordion";
+import {useEffect} from "react";
+import {useAccount} from "wagmi";
 
 export default function CreateNFT() {
+    const {isConnected, isDisconnected} = useAccount()
+    useEffect(() => {
+        if(isDisconnected){
+            alert("Please connect your wallet to continue")
+            window.location.href = "/"
+        }
+    }, [isConnected,isDisconnected])
+
     return (
         <>
             <Head>

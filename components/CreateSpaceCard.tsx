@@ -15,11 +15,16 @@ export default function CreateSpaceCard() {
     const [pfp, setImage] = useState<File | null>(null)
     const [generating, setGenerating] = useState<boolean>(false)
 
-    const {orbis} = useOrbisContext()
+    const {orbis, user} = useOrbisContext()
     const {spaceExists, mintSpace} = useContract()
 
     const handleImageChange = (event: any) => {
         const selectedFile = event.target.files[0];
+        // selected file size should be less than 1 MB
+        if (selectedFile.size > 1024 * 1024) {
+            toast.error("File size should be less than 1 MB");
+            return;
+        }
         setImage(selectedFile);
 
         const reader = new FileReader();
@@ -35,25 +40,21 @@ export default function CreateSpaceCard() {
     const handleSubmit = async(e: any) => {
         e.preventDefault()
         setGenerating(true)
+        if(!pfp){
+            toast.error("Please select an image")
+            setGenerating(false)
+            return
+        }
         const toastId = toast.loading("Minting Space...")
+        console.log(user)
 
         const exists = await spaceExists(form.name)
-        console.log(exists)
         if (exists) {
             toast.error("Space already exists!", {id: toastId})
             setGenerating(false)
             return
         }
-        const data = await uploadImage(pfp!, form.name, form.description)
-        console.log(data)
-        const response = await fetch("/api/uploadToIpfs", {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        const imageUrl = (await response.json()).cid
+        const imageUrl = await uploadImage(pfp!, form.name, form.description)
         console.log(imageUrl)
         // @ts-ignore
         const res = await orbis.createGroup({
@@ -124,7 +125,7 @@ export default function CreateSpaceCard() {
                         </div>
                         <div className="form-field my-2">
                             <label className="block text-sm font-medium text-slate-700">
-                                Choose Space Profile Picture <span className="text-pink-600">*</span>
+                                Choose Space Profile Picture (less than 1 MB) <span className="text-pink-600">*</span>
                             </label>
                             <input type="file" accept="image/*" required
                                    className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"

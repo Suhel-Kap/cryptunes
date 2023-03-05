@@ -4,8 +4,8 @@ import {useSigner} from "wagmi";
 
 interface DeclareProps {
     metadataURL: string
-    spaceName: String
-    mintPrice: number
+    spaceName: string
+    mintPrice: string
     maxSupply: number
     currentToken: number
 // IPFS SCHEME FOR THE NFT METADATA EXAMPLE
@@ -43,7 +43,8 @@ export const useContract = () => {
     }
 
     const declareNFT = async ({metadataURL,spaceName,mintPrice,maxSupply,currentToken} :DeclareProps) =>{
-        const price = ethers.utils.parseEther(mintPrice.toString())
+        const price = ethers.utils.parseEther(mintPrice)
+        console.log("price:", price)
         const tx = await contract.defineNFT(metadataURL, spaceName,price,maxSupply,currentToken, {gasLimit: 1000000})
         return await tx.wait()
     }

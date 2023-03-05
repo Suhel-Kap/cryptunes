@@ -13,7 +13,15 @@ export default async function uploadImage(image: File, name: string, description
         filesData: filesTemp,
         name: name,
         description: description,
+        type: "image",
         ai: false,
     }
-    return data
+    const response = await fetch("/api/uploadToIpfs", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    return (await response.json()).cid
 }
