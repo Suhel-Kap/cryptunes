@@ -1,12 +1,22 @@
 import {useState} from "react";
 import Image from "next/image";
+import {useOrbisContext} from "../contexts/OrbisContext";
+import SpinnerButton from "@/components/SpinnerButton";
+import toast from "react-hot-toast";
+import {useContract} from "@/hooks/useContract";
+import uploadImage from "@/lib/uploadImage";
 
 export default function CreateSpaceCard() {
     const [form, setForm] = useState({
         name: "",
         description: "",
+        supplyTokens: 0
     })
     const [pfp, setImage] = useState<File | null>(null)
+    const [generating, setGenerating] = useState<boolean>(false)
+
+    const {orbis} = useOrbisContext()
+    const {spaceExists, mintSpace} = useContract()
 
     const handleImageChange = (event: any) => {
         const selectedFile = event.target.files[0];
@@ -24,7 +34,44 @@ export default function CreateSpaceCard() {
 
     const handleSubmit = async(e: any) => {
         e.preventDefault()
+        setGenerating(true)
+        const toastId = toast.loading("Minting Space...")
 
+        const exists = await spaceExists(form.name)
+        console.log(exists)
+        if (exists) {
+            toast.error("Space already exists!", {id: toastId})
+            setGenerating(false)
+            return
+        }
+        const data = await uploadImage(pfp!, form.name, form.description)
+        console.log(data)
+        const response = await fetch("/api/uploadToIpfs", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const imageUrl = (await response.json()).cid
+        console.log(imageUrl)
+        // @ts-ignore
+        const res = await orbis.createGroup({
+            pfp: imageUrl,
+            name: form.name,
+            description: form.description
+        })
+        const groupId = res.doc
+        console.log(groupId)
+        try{
+            await mintSpace(form.name, groupId, form.supplyTokens)
+            toast.success("Space Minted!", {id: toastId})
+        } catch (e){
+            console.log(e)
+            toast.error("Error minting space", {id: toastId})
+        }
+
+        setGenerating(false)
     }
 
     return (
@@ -55,6 +102,7 @@ export default function CreateSpaceCard() {
                             </label>
                             <textarea
                                 placeholder="Description"
+                                required
                                 className="block w-full px-3 py-2 bg-white text-slate-200 rounded-md text-sm shadow-sm textarea-block"
                                 value={form.description}
                                 onChange={(e) => setForm({...form, description: e.target.value})}
@@ -62,9 +110,23 @@ export default function CreateSpaceCard() {
                         </div>
                         <div className="form-field my-2">
                             <label className="block text-sm font-medium text-slate-700">
+                                Total Tokens for this space <span className="text-pink-600">*</span>
+                            </label>
+                            <input
+                                type="number"
+                                min={1}
+                                required
+                                placeholder="Supply Tokens"
+                                className="block w-full px-3 py-2 bg-white text-slate-200 rounded-md text-sm shadow-sm"
+                                value={form.supplyTokens}
+                                onChange={(e) => setForm({...form, supplyTokens: parseInt(e.target.value)})}
+                            />
+                        </div>
+                        <div className="form-field my-2">
+                            <label className="block text-sm font-medium text-slate-700">
                                 Choose Space Profile Picture <span className="text-pink-600">*</span>
                             </label>
-                            <input type="file" accept="image/*"
+                            <input type="file" accept="image/*" required
                                    className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
                                    onChange={handleImageChange}
                             />
@@ -74,7 +136,8 @@ export default function CreateSpaceCard() {
                             }
                         </div>
                         <div className="form-control">
-                            <button className="btn bg-pink-600 w-full">Create</button>
+                            {!generating && <button type="submit" className="btn bg-pink-600 w-full">Create</button>}
+                            {generating && <SpinnerButton />}
                         </div>
                     </form>
                 </div>

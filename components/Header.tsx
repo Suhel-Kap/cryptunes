@@ -16,17 +16,26 @@ export default function Header() {
                 </Link>
             </div>
             <div className="navbar-center">
-                <Link className="navbar-item link hover:bg-fuchsia-300" style={{color: "white"}} href="/create">
-                    Create
+                <Link passHref href="/create">
+                    <a className="navbar-item link hover:bg-fuchsia-300" style={{color: "white"}}>
+                        Create
+                    </a>
                 </Link>
-                <Link className="navbar-item link hover:bg-fuchsia-300 underline decoration-orange-500" style={{color: "white"}} href="/ai">
-                    AI NFT
+                <Link passHref href="/ai">
+                    <a className="navbar-item link hover:bg-fuchsia-300 underline decoration-orange-500"
+                       style={{color: "white"}}>
+                        AI NFT
+                    </a>
                 </Link>
-                <Link className="navbar-item link hover:bg-fuchsia-300" style={{color: "white"}} href="/discussions">
-                    Discussions
+                <Link passHref href="/discussions">
+                    <a className="navbar-item link hover:bg-fuchsia-300" style={{color: "white"}}>
+                        Discussions
+                    </a>
                 </Link>
-                <Link className="navbar-item link hover:bg-fuchsia-300" style={{color: "white"}} href="/explore">
-                    Explore
+                <Link passHref href="/explore">
+                    <a className="navbar-item link hover:bg-fuchsia-300" style={{color: "white"}}>
+                        Explore
+                    </a>
                 </Link>
             </div>
             <div className="navbar-end">
