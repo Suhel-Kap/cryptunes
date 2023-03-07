@@ -5,18 +5,8 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-/*
-CryptoStudio is builded to provide a completly dynamic NFT experience
-Digital Artists can create their NFTs and think of unlimited ways to create
-dynamic NFT experiences by leveraging tableland SQL utilities inside SmartContracts
-*/
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
-/** @title CryptoStudio a dynamic NFT Collection. */
-/// @author Nick Lionis (github handle : nijoe1 )
-/// @notice Use this contract for minting your NFTs inside the Crypto Studio application
-/// @dev A new Dynamic NFTContract that takes The benefits of pure SQL dynamic features
-/// Tableland offers mutable Data with immutable access control only by the SmartContract
-/// All the data inside the tables are pointing to an IPFS CID.
 
 contract CrypTunes is ERC1155
 {
@@ -26,141 +16,160 @@ contract CrypTunes is ERC1155
     using EnumerableSet for EnumerableSet.UintSet;
     using EnumerableSet for EnumerableSet.AddressSet;
 
-    struct spaceInfo{
-        EnumerableSet.AddressSet spaceArtists;
-        EnumerableSet.UintSet spaceTokens;
-        address spaceAdmin;
+    struct collectionInfo{
+        uint256 collectionPool;
+        EnumerableSet.AddressSet collectionArtists;
+        EnumerableSet.UintSet collectionTokens;
+        uint256 collectionMaxSupply;
+        address collectionAdmin;
         string groupID;
     }
 
     struct tokenInfo{
         string metadataURL;
+        string space;
         address creator;
         uint256 maxCap;
+        uint256 availableTokens;
         uint256 price;
     }
 
     Counters.Counter private tokenID;
-    Counters.Counter private spaceID;
+    Counters.Counter private collectionID;
 
-    mapping(string => spaceInfo) private spaceInfoMap;
-    mapping(uint256 => tokenInfo) private tokenInfoMap;
-    mapping(uint256 => string) private spacesMapping;   
+    mapping(string => collectionInfo) private collectionsInfo;
+    mapping(uint256 => tokenInfo) private tokensInfo;
+    mapping(uint256 => string) private collections;   
 
   
-    uint256 private spaceMintPrice;
+    uint256 private collectionCreationPrice;
+    uint256 private collectionsPool;
 
     constructor() ERC1155("") 
     {
-
         owner = msg.sender;
-
-        spaceMintPrice = 0.01 ether;
-
-
+        collectionCreationPrice = 0 ether;
     }
 
-    function socialSpaceCreation(string memory spaceName , string memory groupID ) public payable{
-        require(msg.value >= spaceMintPrice);
-        require(!spaceExists(spaceName));
-        spaceID.increment();
-        spacesMapping[spaceID.current()] = spaceName;
-        spaceInfoMap[spaceName].spaceAdmin = msg.sender;
-        spaceInfoMap[spaceName].spaceArtists.add(msg.sender);
-        spaceInfoMap[spaceName].groupID = groupID;
+    function createCollection(string memory spaceName , string memory groupID, uint256 collectionSupply ) public payable{
+        require(collectionSupply > 0);
+        require(msg.value >= collectionCreationPrice);
+        require(!collectionExists(spaceName));
+        collectionID.increment();
+        collections[collectionID.current()] = spaceName;
+        collectionsInfo[spaceName].collectionAdmin = msg.sender;
+        collectionsInfo[spaceName].collectionArtists.add(msg.sender);
+        collectionsInfo[spaceName].groupID = groupID;
+        collectionsInfo[spaceName].collectionMaxSupply = collectionSupply;
     }
 
     /// @notice function to get if a spaceName is already exists
-    function spaceExists(string memory spaceName)public view returns(bool){
-        if(spaceInfoMap[spaceName].spaceAdmin == address(0)){
+    function collectionExists(string memory spaceName)public view returns(bool){
+        if(collectionsInfo[spaceName].collectionAdmin == address(0)){
             return false;
         }
         return true;
     }
 
 
-    function declareNFT(string memory metadataURL,string memory spaceName, uint256 mintPrice, uint256 maxSupply,uint256 current) public   {
-        require(spaceInfoMap[spaceName].spaceArtists.contains(msg.sender));
-        require(current == tokenID.current()+1);
+    function defineNFT(string memory metadataURL,string memory spaceName, uint256 mintPrice, uint256 maxSupply) public   {
+        require(collectionsInfo[spaceName].collectionArtists.contains(msg.sender));
+        require(collectionsInfo[spaceName].collectionMaxSupply > 0);
+        collectionsInfo[spaceName].collectionMaxSupply --;
         tokenID.increment();
-        tokenInfo memory temp  = tokenInfo(metadataURL,msg.sender,maxSupply,mintPrice);
-        spaceInfoMap[spaceName].spaceTokens.add(tokenID.current());
-        tokenInfoMap[tokenID.current()] = temp;
+        tokenInfo memory temp  = tokenInfo(metadataURL, spaceName, msg.sender, maxSupply, maxSupply, mintPrice);
+        collectionsInfo[spaceName].collectionTokens.add(tokenID.current());
+        tokensInfo[tokenID.current()] = temp;
+    }
+
+    function getToken(uint256 tokenId) public view returns(tokenInfo memory){
+        return tokensInfo[tokenId];
     }
 
    
     function mint(uint256 tokenid) public payable {
         exists(tokenid);
-        require(tokenInfoMap[tokenid].maxCap > 0);
-        require(tokenInfoMap[tokenid].price <= msg.value);
+        require(tokensInfo[tokenid].availableTokens > 0);
+        require(tokensInfo[tokenid].price <= msg.value);
         require(balanceOf(msg.sender,tokenid) < 1);
-        address payable to = payable(tokenInfoMap[tokenid].creator);
-        to.transfer(msg.value);
-        // this.transfer(msg.value * 0.1);
+        manageMintRoyalties(tokenid);
         _mint(msg.sender, tokenid, 1, "");
-        tokenInfoMap[tokenid].maxCap --;
+        tokensInfo[tokenid].availableTokens --;
     }
 
     function setTokenMintPrice(uint256 tokenid ,uint256 tokenPrice) public {
         onlyCreator(tokenid, msg.sender);
-        tokenInfoMap[tokenid].price = tokenPrice;
-    }
-
-    function changeNFTMetadata(uint256 tokenid ,string memory metadata) interanal {
-        onlyCreator(tokenid, msg.sender);
-        tokenInfoMap[tokenid].metadataURL = metadata;
+        tokensInfo[tokenid].price = tokenPrice;
     }
   
     /// @notice The spaceOwner can hire others to join their Space and add their artistic touch by declaring more NFTs 
-    function addSpaceArtist(string memory spaceName, address artist) public {
-        onlySpaceAdmin(spaceName,msg.sender);
-        spaceInfoMap[spaceName].spaceArtists.add(artist);
+    function addCollectionArtist(string memory spaceName, address artist) public {
+        onlycollectionAdmin(spaceName,msg.sender);
+        collectionsInfo[spaceName].collectionArtists.add(artist);
     }
 
     /// @notice The spaceOwner can remove not well behaved artists from te space
-    function deleteSpaceArtist(string memory spaceName, address artist) public {
-        onlySpaceAdmin(spaceName,msg.sender);
-        spaceInfoMap[spaceName].spaceArtists.remove(artist);
+    function deleteCollectionArtist(string memory spaceName, address artist) public {
+        onlycollectionAdmin(spaceName,msg.sender);
+        collectionsInfo[spaceName].collectionArtists.remove(artist);
     }
 
     /// @notice Function to check if an address isArtist inside a certain space
-    // Is used for custom Lit Actions to encrypt content that only the spaceArtists can decrypt!
-    function isSpaceArtist(string memory spaceName, address sender ) public view returns (bool){
-        return spaceInfoMap[spaceName].spaceArtists.contains(sender);
+    // Is used for custom Lit Actions to encrypt content that only the collectionArtists can decrypt!
+    function isCollectionArtist(string memory spaceName, address sender ) public view returns (bool){
+        return collectionsInfo[spaceName].collectionArtists.contains(sender);
     }
 
-    /// @notice Function to check if an address isSpaceMember inside a certain space
-    // Used for Lit Actions as the Encryption Rule for Posts-Proposal channels only granted to Space NFT holders , Artists and the space Admin
-    function isSpaceMember(string memory spaceName, address sender) public view returns (bool){
-        uint256 size = spaceInfoMap[spaceName].spaceTokens.length();
-        uint256 index;
-        if(isSpaceArtist(spaceName,sender)){
-            return true;
-        }
-        for (uint256 i = 0; i < size; i++) {
-            index = uint32(spaceInfoMap[spaceName].spaceTokens.at(i));
-            if(balanceOf(sender,index) > 0){
-                return true;
-            }
-        }
-        return false;
+    function getCollectionMaxCap(string memory spaceName) public view returns(uint256){
+        return collectionsInfo[spaceName].collectionTokens.length() + collectionsInfo[spaceName].collectionMaxSupply;
     }
 
-    function getSpaceTokens(string memory spaceName) public view returns(uint32[] memory){
-        uint256 size = spaceInfoMap[spaceName].spaceTokens.length();
+    function getcollectionTokens(string memory spaceName) public view returns(uint32[] memory){
+        uint256 size = collectionsInfo[spaceName].collectionTokens.length();
         uint32[] memory tokens = new uint32[](size);
         for (uint256 i = 0; i < size; i++) {
-            tokens[i] = uint32(uint64(spaceInfoMap[spaceName].spaceTokens.at(i)));
+            tokens[i] = uint32(uint64(collectionsInfo[spaceName].collectionTokens.at(i)));
         }
         return tokens;
     }
 
-    function getSpaces() public view returns(string[] memory){
-        string[] memory spaces = new string[](spaceID.current());
-        for (uint256 i = 0; i < spaceID.current(); i++) {
-            spaces[i] = spacesMapping[i];
+    function getCollectionsInfo() public view returns(string[] memory, string[] memory){
+        string[] memory collection = new string[](collectionID.current());
+        string[] memory groupIDs = new string[](collectionID.current());
+
+        for (uint256 i = 0; i < collectionID.current(); i++) {
+            collection[i] = collections[i+1];
+            groupIDs[i] = collectionsInfo[collections[i+1]].groupID;
         }
-        return spaces;
+        return (collection,groupIDs);
+    }
+
+    function getCollections() internal view returns(string[] memory){
+        string[] memory collection = new string[](collectionID.current());
+
+        for (uint256 i = 0; i < collectionID.current(); i++) {
+            collection[i] = collections[i+1];
+        }
+        return collection;
+    }
+
+    function isArtistForCollections(address artist) public view returns(string[] memory){
+        string[] memory collection = getCollections();
+        uint temp = 0;
+        for (uint256 i=0; i < collection.length; i++){
+            if(isCollectionArtist(collection[i], artist)){
+                temp++;
+            }
+        }
+        string[] memory returnArray = new string[](temp);
+        uint256 j = 0;
+        for (uint256 i=0; i < collection.length; i++){
+            if(isCollectionArtist(collection[i], artist)){
+                returnArray[j] = collection[i];
+                j++;
+            }
+        }
+        return returnArray;
 
     }
 
@@ -170,7 +179,7 @@ contract CrypTunes is ERC1155
     /// @return the tokenURI link for the specific NFT metadata
 	function uri(uint256 tokenId) public view virtual override returns (string memory) {
 		exists(tokenId);
-		return tokenInfoMap[tokenId].metadataURL;
+		return tokensInfo[tokenId].metadataURL;
 	}
 
     /// @notice returns the total number of minted NFTs
@@ -178,11 +187,26 @@ contract CrypTunes is ERC1155
         return tokenID.current();
     }    
 
+    function manageMintRoyalties(uint256 tokenid) internal{
+        address payable to = payable(tokensInfo[tokenid].creator);
+        uint oneTenth = SafeMath.div(msg.value,10);
+        collectionsInfo[tokensInfo[tokenid].space].collectionPool = collectionsInfo[tokensInfo[tokenid].space].collectionPool + oneTenth;
+        collectionsPool = collectionsPool + oneTenth;
+        to.transfer(SafeMath.mul(oneTenth,8));
+    }
+
     /// @notice withdraw function of the contract funds only by the contract owner
     function withdraw() public payable  {
         ownerCheck(msg.sender);
         address payable to = payable(msg.sender);
-        to.transfer(address(this).balance);
+        to.transfer(address(this).balance - collectionsPool);
+    }
+
+    function collectionWithdraw(string memory spaceName) public payable{
+        onlycollectionAdmin(spaceName, msg.sender);
+        address payable to = payable(collectionsInfo[spaceName].collectionAdmin);
+        to.transfer(collectionsInfo[spaceName].collectionPool);
+        collectionsPool = collectionsPool - collectionsInfo[spaceName].collectionPool;
     }
 
     function ownerCheck(address addr) internal view {
@@ -190,11 +214,11 @@ contract CrypTunes is ERC1155
     }
 
     function onlyCreator(uint256 tokenid, address sender) internal view {
-        if(tokenInfoMap[tokenid].creator != sender){ revert(); }
+        if(tokensInfo[tokenid].creator != sender){ revert(); }
     }
 
-    function onlySpaceAdmin(string memory spaceName, address sender) internal view{
-        if(spaceInfoMap[spaceName].spaceAdmin != sender){ revert(); }
+    function onlycollectionAdmin(string memory spaceName, address sender) internal view{
+        if(collectionsInfo[spaceName].collectionAdmin != sender){ revert(); }
     }
 
     function exists(uint256 tokenid) internal view{
@@ -207,3 +231,4 @@ contract CrypTunes is ERC1155
         owner = newOwner;
     }
 }
+

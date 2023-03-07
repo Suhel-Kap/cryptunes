@@ -244,11 +244,6 @@
                 "internalType": "uint256",
                 "name": "maxSupply",
                 "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "current",
-                "type": "uint256"
             }
         ],
         "name": "defineNFT",
@@ -311,11 +306,42 @@
             "name": "tokenId",
             "type": "uint256"
         }],
-        "name": "getTokenMintPrice",
+        "name": "getToken",
         "outputs": [{
-            "internalType": "uint256",
+            "components": [{
+                    "internalType": "string",
+                    "name": "metadataURL",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "space",
+                    "type": "string"
+                },
+                {
+                    "internalType": "address",
+                    "name": "creator",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "maxCap",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "availableTokens",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "price",
+                    "type": "uint256"
+                }
+            ],
+            "internalType": "struct CrypTunes.tokenInfo",
             "name": "",
-            "type": "uint256"
+            "type": "tuple"
         }],
         "stateMutability": "view",
         "type": "function"

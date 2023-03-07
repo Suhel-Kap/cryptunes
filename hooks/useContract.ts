@@ -4,8 +4,8 @@ import {useSigner} from "wagmi";
 
 interface DeclareProps {
     metadataURL: string
-    spaceName: string
-    mintPrice: string
+    spaceName: String
+    mintPrice: number
     maxSupply: number
     currentToken: number
 // IPFS SCHEME FOR THE NFT METADATA EXAMPLE
@@ -43,9 +43,8 @@ export const useContract = () => {
     }
 
     const declareNFT = async ({metadataURL,spaceName,mintPrice,maxSupply,currentToken} :DeclareProps) =>{
-        const price = ethers.utils.parseEther(mintPrice)
-        console.log("price:", price)
-        const tx = await contract.defineNFT(metadataURL, spaceName,price,maxSupply,currentToken, {gasLimit: 1000000})
+        const price = ethers.utils.parseEther(mintPrice.toString())
+        const tx = await contract.defineNFT(metadataURL, spaceName,price,maxSupply, {gasLimit: 1000000})
         return await tx.wait()
     }
 
@@ -56,8 +55,7 @@ export const useContract = () => {
 
 
     const mint = async (tokenid:number, mintPrice:string) => {
-        const price = ethers.utils.parseEther(mintPrice)
-        const tx = await contract.mint(tokenid, {value: price, gasLimit: 1000000})
+        const tx = await contract.mint(tokenid, {value: mintPrice, gasLimit: 1000000})
         return await tx.wait()
     }
 
@@ -81,7 +79,7 @@ export const useContract = () => {
         return await tx.wait()
     }
 
-        // how to add an address
+    // how to add an address
     const deleteSpaceArtist = async(spaceName:string, address:any) => {
         const tx = await contract.deleteCollectionArtist(spaceName, address, { gasLimit: 1000000})
         return await tx.wait()
@@ -91,6 +89,9 @@ export const useContract = () => {
         return await contract.isCollectionArtist(spaceName, address)
     }
 
+    // returns 2 parallel arrays that are string 
+    // first array : collectionNames 
+    // second array : collectionGroupID
     const getCollections =async () => {
         return await contract.getCollectionsInfo()
     }
@@ -111,6 +112,10 @@ export const useContract = () => {
         return await contract.uri(tokenID)
     }
 
+    const getToken = async(tokenID: number) => {
+        return await contract.getToken(tokenID)
+    }
+
 
     return {
         getCurrentTokenId,
@@ -124,6 +129,7 @@ export const useContract = () => {
         mintSpace,
         getMintPrice,
         mint,
+        getToken,
         isSpaceArtist,
         deleteSpaceArtist,
         addSpaceArtist,
