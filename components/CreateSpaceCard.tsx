@@ -46,7 +46,9 @@ export default function CreateSpaceCard() {
             return
         }
         const toastId = toast.loading("Minting Space...")
-        console.log(user)
+        // @ts-ignore
+        const isConnected = await orbis.isConnected()
+        console.log(isConnected)
 
         const exists = await spaceExists(form.name)
         if (exists) {
@@ -63,7 +65,7 @@ export default function CreateSpaceCard() {
             description: form.description
         })
         const groupId = res.doc
-        console.log(groupId)
+        console.log(groupId, form.supplyTokens, form.name)
         try{
             await mintSpace(form.name, groupId, form.supplyTokens)
             toast.success("Space Minted!", {id: toastId})
