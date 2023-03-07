@@ -81,10 +81,9 @@ export default function CreateAVCard({spaces}: { spaces: string[] }) {
             console.log("currentTokenId", currentTokenId)
             const params = {
                 maxSupply: parseInt(form.quantity),
-                mintPrice: form.price,
+                mintPrice: parseInt(form.price),
                 metadataURL: metadataUrl,
                 spaceName: form.space,
-                currentToken: parseInt(currentTokenId) + 1
             }
             console.log("params", params)
             await declareNFT(params)
