@@ -25,6 +25,7 @@ export default function SpaceCard(props: {collection: {name: string, groupId: st
 
     return (
         <div className="card card-image-cover" style={{maxHeight: 400}}>
+            {!info?.content?.pfp && <div className="skeleton h-80 w-80 rounded-2xl"></div>}
             <img src={info?.content?.pfp} alt=""/>
             <div className="card-body">
                 <h2 className="card-header">{info?.content?.name}</h2>

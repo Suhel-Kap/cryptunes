@@ -9,12 +9,11 @@ import uploadMetadata from "@/lib/uploadMetadata";
 import SpinnerButton from "@/components/SpinnerButton";
 import { nftImages } from "../constants";
 
-export default function CreateAVCard() {
+export default function CreateAVCard({spaces}: { spaces: string[] }) {
     const {isArtistForCollections, declareNFT, getCurrentTokenId} = useContract()
     const {address} = useAccount()
     const [generating, setGenerating] = useState(false)
     const mounted = useIsMounted()
-    const [spaces, setsSpaces] = useState<any>(["No Spaces"])
     const [selectedNft, setSelectedNft] = useState<String>()
     const [displayPreview, setDisplayPreview] = useState(false)
     const initalForm = {
@@ -29,15 +28,6 @@ export default function CreateAVCard() {
     }
     const [form, setForm] = useState(initalForm)
 
-    useEffect(() => {
-        if (!address) return
-        if (!mounted) return
-        isArtistForCollections(address!).then((res: any) => {
-            console.log(res)
-            setsSpaces(["Select a space", ...res])
-        })
-    }, [mounted, address])
-
     const [audio, setAudio] = useState<File | null>(null)
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,9 +35,11 @@ export default function CreateAVCard() {
     }
     const handleSubmit = async (e: any) => {
         e.preventDefault()
+        setGenerating(true)
         // @ts-ignore
         if(audio?.size > 4 * 1024 * 1024){
             toast.error("File size should be less than 4 MB");
+            setGenerating(false)
             return;
         }
         const toastId = toast.loading("Minting NFT...")
@@ -102,6 +94,7 @@ export default function CreateAVCard() {
             toast.error("Something went wrong", {id: toastId})
             console.log(e)
         }
+        setGenerating(false)
     }
 
     return (

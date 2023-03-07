@@ -31,11 +31,7 @@ export default async function handler(
     }
     if (req.method === "POST") {
         const {groupId} = req.body
-        // const groupId = "kjzl6cwe1jw14avhy6251vwlhwhkfe2g8ym9rmuur6vx0fqnjb4o8knmolu9q76"
-        console.log("groupId:", groupId)
-        const wallet = new ethers.Wallet(getPrivateKey()!)
         const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/fantom_testnet');
-        const signer = provider.getSigner(wallet.address)
         const orbis = new Orbis()
         await orbis.connect_v2({
             provider: provider,

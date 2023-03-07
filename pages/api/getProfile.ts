@@ -8,6 +8,7 @@ export default async function handler(
     res: NextApiResponse<any>
 ){
     const {did} = req.body
+    console.log(did)
     const orbis = new Orbis()
     const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/fantom_testnet');
     await orbis.connect_v2({

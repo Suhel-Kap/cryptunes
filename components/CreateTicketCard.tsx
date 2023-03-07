@@ -8,12 +8,11 @@ import uploadImage from "@/lib/uploadImage";
 import uploadMetadata from "@/lib/uploadMetadata";
 import SpinnerButton from "@/components/SpinnerButton";
 
-export default function CreateTicketCard() {
-    const {isArtistForCollections, declareNFT, getCurrentTokenId} = useContract()
+export default function CreateTicketCard({spaces}: { spaces: string[] }) {
+    const {declareNFT, getCurrentTokenId} = useContract()
     const {address} = useAccount()
     const [generating, setGenerating] = useState(false)
     const mounted = useIsMounted()
-    const [spaces, setsSpaces] = useState<any>(["No Spaces"])
     const initalForm = {
         name: "",
         description: "",
@@ -27,15 +26,6 @@ export default function CreateTicketCard() {
     const [form, setForm] = useState(initalForm)
 
     const [image, setImage] = useState<File | null>(null)
-
-    useEffect(() => {
-        if (!address) return
-        if (!mounted) return
-        isArtistForCollections(address!).then((res: any) => {
-            console.log(res)
-            setsSpaces(["Select a space", ...res])
-        })
-    }, [mounted, address])
 
     const handleImageChange = (event: any) => {
         const selectedFile = event.target.files[0];
@@ -57,6 +47,7 @@ export default function CreateTicketCard() {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
+        setGenerating(true)
         const toastId = toast.loading("Minting NFT...")
         if(!image){
             toast.error("Please select an image", {id: toastId})
@@ -94,6 +85,7 @@ export default function CreateTicketCard() {
             toast.error("Something went wrong", {id: toastId})
             console.log(e)
         }
+        setGenerating(false)
     }
 
     return (

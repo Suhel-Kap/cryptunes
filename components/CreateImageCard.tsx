@@ -8,12 +8,11 @@ import uploadImage from "@/lib/uploadImage";
 import uploadMetadata from "@/lib/uploadMetadata";
 import SpinnerButton from "@/components/SpinnerButton";
 
-export default function CreateImageCard() {
-    const {isArtistForCollections, declareNFT, getCurrentTokenId} = useContract()
+export default function CreateImageCard({spaces}: { spaces: string[] }) {
+    const {declareNFT, getCurrentTokenId} = useContract()
     const {address} = useAccount()
     const [generating, setGenerating] = useState<boolean>(false)
     const mounted = useIsMounted()
-    const [spaces, setsSpaces] = useState<any>(["No Spaces"])
     const initalForm = {
         name: "",
         description: "",
@@ -27,15 +26,6 @@ export default function CreateImageCard() {
     const [form, setForm] = useState(initalForm)
 
     const [image, setImage] = useState<File | null>(null)
-
-    useEffect(() => {
-        if (!address) return
-        if (!mounted) return
-        isArtistForCollections(address!).then((res: any) => {
-            console.log(res)
-            setsSpaces(["Select a space", ...res])
-        })
-    }, [mounted, address])
 
     const handleImageChange = (event: any) => {
         const selectedFile = event.target.files[0];

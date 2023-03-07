@@ -2,17 +2,36 @@ import Head from "next/head";
 import Layout from "@/components/Layout";
 import CreateSpaceCard from "@/components/CreateSpaceCard";
 import Accordion from "@/components/Accordion";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useAccount} from "wagmi";
+import {useIsMounted} from "@/hooks/useIsMounted";
 
 export default function CreateNFT() {
-    const {isConnected, isDisconnected} = useAccount()
+    const {address, isConnected, isDisconnected} = useAccount()
+    const mounted = useIsMounted()
+    const [spaces, setSpaces] = useState<string[]>(["No Spaces"])
+
     useEffect(() => {
         if(isDisconnected){
             alert("Please connect your wallet to continue")
             window.location.href = "/"
         }
     }, [isConnected,isDisconnected])
+
+    useEffect(() => {
+        if (!address) return
+        if (!mounted) return
+        fetch("/api/getUserSpaces", {
+            method: "POST",
+            body: JSON.stringify({address}),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }).then(res => res.json())
+            .then(data => {
+                setSpaces(["Select Space", ...data])
+            })
+    }, [mounted, address])
 
     return (
         <>
@@ -25,7 +44,7 @@ export default function CreateNFT() {
                 <div className="flex flex-col justify-center items-center w-full h-auto absolute top-11">
                     <CreateSpaceCard/>
                     <div className="divider"></div>
-                    <Accordion />
+                    <Accordion spaces={spaces} />
                 </div>
             </Layout>
         </>

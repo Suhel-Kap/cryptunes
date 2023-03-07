@@ -9,12 +9,11 @@ import uploadMetadata from "@/lib/uploadMetadata";
 import {useIsMounted} from "@/hooks/useIsMounted";
 import SpinnerButton from "@/components/SpinnerButton";
 
-export default function CreateAudioCard() {
-    const {isArtistForCollections, declareNFT, getCurrentTokenId} = useContract()
+export default function CreateAudioCard({spaces}: { spaces: string[] }) {
+    const { declareNFT, getCurrentTokenId} = useContract()
     const {address} = useAccount()
     const [generating, setGenerating] = useState(false)
     const mounted = useIsMounted()
-    const [spaces, setsSpaces] = useState<any>(["No Spaces"])
     const initalForm = {
         name: "",
         description: "",
@@ -29,15 +28,6 @@ export default function CreateAudioCard() {
 
     const [audio, setAudio] = useState<File | null>(null)
     const [image, setImage] = useState<File | null>(null)
-
-    useEffect(() => {
-        if (!address) return
-        if (!mounted) return
-        isArtistForCollections(address!).then((res: any) => {
-            console.log(res)
-            setsSpaces(["Select a space", ...res])
-        })
-    }, [mounted, address])
 
     const handleImageChange = (event: any) => {
         const selectedFile = event.target.files[0];
@@ -59,6 +49,7 @@ export default function CreateAudioCard() {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
+        setGenerating(true)
         // @ts-ignore
         if(audio?.size > 4 * 1024 * 1024){
             toast.error("File size should be less than 4 MB");
