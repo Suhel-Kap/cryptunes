@@ -3,13 +3,13 @@ import {useRouter} from "next/router";
 import {useIsMounted} from "@/hooks/useIsMounted";
 import {useEffect, useState} from "react";
 
-export default function SpaceCard(props: {collection: {name: string, groupId: string}}){
+export default function SpaceCard(props: { collection: { name: string, groupId: string } }) {
     const router = useRouter()
     const mounted = useIsMounted()
     const [info, setInfo] = useState<any>()
     useEffect(() => {
         console.log(props.collection.groupId)
-        if(mounted && props.collection.groupId){
+        if (mounted && props.collection.groupId) {
             fetch("/api/getSpaces", {
                 method: "POST",
                 body: JSON.stringify({groupId: props.collection.groupId}),
@@ -21,15 +21,16 @@ export default function SpaceCard(props: {collection: {name: string, groupId: st
             })
         }
     }, [router.query, mounted])
-    console.log(info)
 
     return (
-        <div className="card card-image-cover" style={{maxHeight: 400}}>
+        <div className="card card-image-cover bg-amber-50 relative" style={{maxHeight: 400}}>
             {!info?.content?.pfp && <div className="skeleton h-80 w-80 rounded-2xl"></div>}
-            <img src={info?.content?.pfp} alt=""/>
+            <div className="h-44 flex flex-row items-center justify-center cursor-pointer">
+                <img src={info?.content?.pfp} alt=""/>
+            </div>
             <div className="card-body">
-                <h2 className="card-header">{info?.content?.name}</h2>
-                <p className="text-content2">{info?.content?.description}</p>
+                <h2 className="card-header text-slate-700">{info?.content?.name}</h2>
+                <p className="text-content2 text-slate-400">{info?.content?.description}</p>
                 <div className="card-footer">
                     <Link href={`/space?name=${props.collection.name}&groupId=${props.collection.groupId}`}>
                         <button className="btn-secondary btn">Learn More</button>

@@ -11,11 +11,11 @@ import uploadMetadata from "@/lib/uploadMetadata";
 
 export default function AI() {
     const [prompt, setPrompt] = useState<string>("")
-    const {isArtistForCollections, declareNFT, getCurrentTokenId} = useContract()
+    const {declareNFT, getCurrentTokenId} = useContract()
     const {address, isDisconnected, isConnected} = useAccount()
     const [generating, setGenerating] = useState<boolean>(false)
     const mounted = useIsMounted()
-    const [spaces, setsSpaces] = useState<any>(["No Spaces"])
+    const [spaces, setSpaces] = useState<any>(["No Spaces"])
     const initalForm = {
         name: "",
         description: "",
@@ -32,10 +32,16 @@ export default function AI() {
     useEffect(() => {
         if (!address) return
         if (!mounted) return
-        isArtistForCollections(address!).then((res: any) => {
-            console.log(res)
-            setsSpaces(["Select a space", ...res])
-        })
+        fetch("/api/getUserSpaces", {
+            method: "POST",
+            body: JSON.stringify({address}),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }).then(res => res.json())
+            .then(data => {
+                setSpaces(["Select Space", ...data])
+            })
     }, [mounted, address])
 
     useEffect(() => {

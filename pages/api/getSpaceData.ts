@@ -20,11 +20,14 @@ export default async function handler(
     console.log("data:", data)
     let nftData = []
     for (let i = 0; i < data.length; i++) {
-        const nftMetadata = await contract.uri(data[i])
+        let nftMetadata = await contract.uri(data[i])
+        nftMetadata = await (await fetch(nftMetadata)).json()
+        const priceInBigNum = await contract.getTokenMintPrice(data[i])
+        nftMetadata.price = ethers.utils.formatEther(priceInBigNum)
+        nftMetadata.tokenId = data[i]
         nftData.push(nftMetadata)
     }
     res.status(200).json(JSON.stringify({
-        tokenIds: data,
         nftData: nftData
     }))
 }
