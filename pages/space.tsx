@@ -10,15 +10,18 @@ import {Discussion} from "@orbisclub/components";
 import "@orbisclub/components/dist/index.modern.css";
 import {useOrbisContext} from "../contexts/OrbisContext";
 import toast from "react-hot-toast";
+import {useContract} from "@/hooks/useContract";
+import {ethers} from "ethers";
 
 export default function Space() {
     const router = useRouter()
     const mounted = useIsMounted()
     const {orbis, user} = useOrbisContext()
+    const {addSpaceArtist, deleteSpaceArtist} = useContract()
 
     const [info, setInfo] = useState<any>()
     const [creator, setCreator] = useState<any>()
-    const [nfts, setNfts] = useState<any[]>([])
+    const [nfts, setNfts] = useState<any[]>()
     const [activeTab, setActiveTab] = useState(1)
     const [isGroupMember, setIsGroupMember] = useState(false)
     const [isCreator, setIsCreator] = useState(false)
@@ -153,12 +156,20 @@ export default function Space() {
                     </div>
                     {activeTab === 1 &&
                         <div className="grid gap-5 grid-cols-3 p-5 mt-10">
-                            {nfts.length === 0 &&
+                            {
+                                !nfts &&
                                 <>
                                     <div className="skeleton h-80 w-80 rounded-2xl"></div>
                                     <div className="skeleton h-80 w-80 rounded-2xl"></div>
                                     <div className="skeleton h-80 w-80 rounded-2xl"></div>
-                                </>}
+                                </>
+                            }
+                            {
+                                nfts?.length === 0 &&
+                                <div className="text-center flex flex-row justify-center items-center w-full">
+                                    <h1 className="text-2xl font-semibold">No NFTs in this space</h1>
+                                </div>
+                            }
                             {
                                 nfts?.map((nft, index) => (
                                     <NFTCard nft={nft} key={index}/>
@@ -172,7 +183,97 @@ export default function Space() {
                                 context={router.query.groupId}/>
                         </div>
                     }
-                    {activeTab === 3 && <div>Tab 3</div>}
+                    {activeTab === 3 &&
+                        <div className="flex flex-col justify-center items-center w-full h-auto my-5">
+                            <h3 className="text-2xl font-semibold my-3">Manage Space</h3>
+                            <div className="card bg-rose-100" style={{maxWidth: "35rem"}}>
+                                <div className="mx-auto flex w-full max-w-sm flex-col gap-1">
+                                    <div className="card-header mx-auto"
+                                         style={{marginTop: "1rem", flexDirection: "column"}}>
+                                        <h2 className="text-stone-900">Add Artist To Space</h2>
+                                    </div>
+                                    <div className="card-body form-group pt-0.5">
+                                        <div className="form-field my-2">
+                                            <form onSubmit={(event) => {
+                                                event.preventDefault()
+                                                const toastId = toast.loading("Adding artist...")
+                                                // @ts-ignore
+                                                const address = event.target[0].value
+                                                try {
+                                                    ethers.utils.getAddress(address)
+                                                    addSpaceArtist(router.query.name as string, address).then(() => {
+                                                        toast.success("Artist added successfully", {id: toastId})
+                                                    }).catch(() => {
+                                                        toast.error("Something went wrong", {id: toastId})
+                                                    })
+                                                } catch (e) {
+                                                    toast.error("Invalid address")
+                                                    return
+                                                }
+                                            }
+                                            }>
+                                                <label className="block text-sm font-medium text-slate-700">
+                                                    Address <span className="text-pink-600">*</span>
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    required
+                                                    placeholder="0x0000000000000000"
+                                                    className="block w-full px-3 py-2 bg-white text-slate-200 rounded-md text-sm shadow-sm"
+                                                />
+                                                <button type="submit" className="btn-success btn mt-2 w-full">Add
+                                                    Artist
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="card bg-rose-100 mt-6" style={{maxWidth: "35rem"}}>
+                                <div className="mx-auto flex w-full max-w-sm flex-col gap-1">
+                                    <div className="card-header mx-auto"
+                                         style={{marginTop: "1rem", flexDirection: "column"}}>
+                                        <h2 className="text-stone-900">Remove Artist From Space</h2>
+                                    </div>
+                                    <div className="card-body form-group pt-0.5">
+                                        <div className="form-field my-2">
+                                            <form onSubmit={(event) => {
+                                                event.preventDefault()
+                                                const toastId = toast.loading("Removing artist...")
+                                                // @ts-ignore
+                                                const address = event.target[0].value
+                                                try {
+                                                    ethers.utils.getAddress(address)
+                                                    deleteSpaceArtist(router.query.name as string, address).then(() => {
+                                                        toast.success("Artist removed successfully", {id: toastId})
+                                                    }).catch(() => {
+                                                        toast.error("Something went wrong", {id: toastId})
+                                                    })
+                                                } catch (e) {
+                                                    toast.error("Invalid address", {id: toastId})
+                                                    return
+                                                }
+                                            }
+                                            }>
+                                                <label className="block text-sm font-medium text-slate-700">
+                                                    Address <span className="text-pink-600">*</span>
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    required
+                                                    placeholder="0x0000000000000000"
+                                                    className="block w-full px-3 py-2 bg-white text-slate-200 rounded-md text-sm shadow-sm"
+                                                />
+                                                <button type="submit" className="btn-error btn mt-2 w-full">Remove
+                                                    Artist
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </Layout>
         </>

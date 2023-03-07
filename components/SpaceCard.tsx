@@ -24,9 +24,9 @@ export default function SpaceCard(props: { collection: { name: string, groupId: 
 
     return (
         <div className="card card-image-cover bg-amber-50 relative" style={{maxHeight: 400}}>
-            {!info?.content?.pfp && <div className="skeleton h-80 w-80 rounded-2xl"></div>}
-            <div className="h-44 flex flex-row items-center justify-center cursor-pointer">
-                <img className="h-44" src={`https://${info?.content?.pfp}.ipfs.nftstorage.link`} alt=""/>
+            {!info?.content?.pfp && <div style={{maxHeight: 225, maxWidth: 384}} className="skeleton rounded-xl"></div>}
+            <div className="max-h-full max-w-full flex flex-row items-center justify-center cursor-pointer">
+                <img style={{maxHeight: 225, maxWidth: 384}} src={`https://${info?.content?.pfp}.ipfs.nftstorage.link`} alt=""/>
             </div>
             <div className="card-body">
                 <h2 className="card-header text-slate-700">{info?.content?.name}</h2>
