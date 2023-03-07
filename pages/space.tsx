@@ -125,7 +125,14 @@ export default function Space() {
                     <div className="flex flex-row justify-between">
                         <CreatorCard creator={creator}/>
                         <div className="btn-group btn-group-scrollable">
-                            <button className="btn-primary btn">
+                            <button className="btn-primary btn" onClick={() => {
+                                if (isGroupMember) {
+                                    handleLeave()
+                                } else {
+                                    handleJoin()
+                                }
+                            }
+                            }>
                                 {isGroupMember ? "Leave Space" : "Join Space"}
                             </button>
                         </div>

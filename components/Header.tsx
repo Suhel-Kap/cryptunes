@@ -4,9 +4,12 @@ import makeBlockie from "ethereum-blockies-base64";
 import Link from "next/link";
 import {useAccount} from "wagmi";
 import Connect from "@/components/Conenct";
+import {add} from "@noble/hashes/_u64";
+import {useOrbisContext} from "../contexts/OrbisContext";
 
 export default function Header() {
     const {isConnected, isDisconnected, address} = useAccount()
+    const {user} = useOrbisContext()
 
     return (
         <div className="navbar rounded-2xl mb-4 sticky top-0 z-10" style={{background: "transparent"}}>
@@ -47,11 +50,14 @@ export default function Header() {
                                     <img src={makeBlockie(address as string)} className="rounded-full" alt="avatar"/>
                                 </label>
                                 <div className="dropdown-menu dropdown-menu-bottom-left">
-                                    <Link href={"/my-profile"} className="dropdown-item text-sm">
+                                    {/*// @ts-ignore*/}
+                                    <Link href={`/user?address=${user?.did}`} className="dropdown-item my-1 p-1 text-sm">
                                         My Profile
                                     </Link>
                                     {isConnected && (
+                                        <div className="dropdown-item">
                                         <Connect/>
+                                        </div>
                                     )}
                                 </div>
                             </div>
