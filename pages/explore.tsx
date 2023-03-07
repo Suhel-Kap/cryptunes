@@ -13,6 +13,7 @@ export default function Explore(){
             setCollections(collections)
         })
     }, [])
+    console.log(collections)
 
     return (
         <>

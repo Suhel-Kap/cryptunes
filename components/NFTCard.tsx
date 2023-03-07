@@ -4,22 +4,27 @@ import toast from "react-hot-toast";
 
 export default function NFTCard({nft}: {
     nft: {
-        name: string,
-        description: string,
-        image: string,
-        price: string,
-        type: string,
         tokenId: number,
-        animation_url: string,
-        external_url: string,
-        attributes: {
-            trait_type: string,
-            value: string
-        }[]
+        price: string,
+        availableTokens: number,
+        maxCap: number,
+        metadata: {
+            name: string,
+            description: string,
+            image: string,
+            type: string,
+            animation_url: string,
+            external_url: string,
+            attributes: {
+                trait_type: string,
+                value: string
+            }[]
+        }
     }
 }) {
     const {mint} = useContract()
     const [isMinting, setIsMinting] = useState(false)
+    console.log(nft)
 
     const handleMint = async () => {
         setIsMinting(true)
@@ -37,26 +42,27 @@ export default function NFTCard({nft}: {
     return (
         <div className="card card-image-cover relative bg-amber-50">
                                         <span
-                                            className="absolute top-3 right-4 badge badge-flat-primary">{nft.type}</span>
-            <div onClick={() => window.open(`https://${nft.animation_url}.ipfs.nftstorage.link`)}
+                                            className="absolute top-3 right-4 badge badge-flat-primary">{nft.metadata.type}</span>
+            <div onClick={() => window.open(`https://${nft.metadata.animation_url}.ipfs.nftstorage.link`)}
                  className="h-44 flex flex-row items-center justify-center cursor-pointer">
-                <img className="aspect-auto" src={`https://${nft.image}.ipfs.nftstorage.link`} alt=""/>
+                <img className="aspect-auto h-44" src={`https://${nft.metadata.image}.ipfs.nftstorage.link`} alt=""/>
             </div>
             <div className="card-body">
-                <h2 className="card-header text-slate-600">{nft.name}</h2>
-                <p className="text-content2 text-slate-200">{nft.description}</p>
+                <h2 className="card-header text-slate-600">{nft.metadata.name}</h2>
+                <p className="text-content2 text-slate-200">{nft.metadata.description}</p>
+                <p className="text-content2 text-slate-200">Available: {nft.availableTokens}/{nft.maxCap}</p>
                 <div className="card-footer">
                     <button disabled={isMinting} onClick={handleMint}
                             className={`btn-error btn ${isMinting ? "cursor-wait" : ""}`}>
                         Mint for {nft.price} FTM
                     </button>
-                    <label className="btn btn-primary" htmlFor={nft.name}>View Attributes</label>
+                    <label className="btn btn-primary" htmlFor={nft.metadata.name}>View Attributes</label>
 
-                    <input className="modal-state" id={nft.name} type="checkbox"/>
+                    <input className="modal-state" id={nft.metadata.name} type="checkbox"/>
                     <div className="modal">
                         <label className="modal-overlay"></label>
                         <div className="modal-content flex flex-col gap-5">
-                            <label htmlFor={nft.name}
+                            <label htmlFor={nft.metadata.name}
                                    className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
                             <h2 className="text-xl">Attributes</h2>
                             <div className="flex w-full overflow-x-auto">
@@ -69,7 +75,7 @@ export default function NFTCard({nft}: {
                                     </thead>
                                     <tbody>
                                     {
-                                        nft.attributes.map((attribute, index) => (
+                                        nft.metadata.attributes.map((attribute, index) => (
                                             <tr key={index}>
                                                 <td>{attribute.trait_type}</td>
                                                 <td>{attribute.value}</td>

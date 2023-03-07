@@ -36,6 +36,7 @@ export default function Space() {
                 }
             }).then(res => res.json()).then(data => {
                 const parsed = JSON.parse(data)
+                console.log(parsed)
                 // @ts-ignore
                 parsed.creator === user.did && setIsCreator(true)
                 setInfo(parsed)

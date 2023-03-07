@@ -54,7 +54,8 @@ export const useContract = () => {
 
 
     const mint = async (tokenid:number, mintPrice:string) => {
-        const tx = await contract.mint(tokenid, {value: mintPrice, gasLimit: 1000000})
+        const price = ethers.utils.parseEther(mintPrice)
+        const tx = await contract.mint(tokenid, {value: price, gasLimit: 1000000})
         return await tx.wait()
     }
 
