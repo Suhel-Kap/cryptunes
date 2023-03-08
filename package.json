@@ -9,16 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@gitcoinco/passport-sdk-reader": "^0.1.4",
-    "@lit-protocol/sdk-browser": "^1.1.248",
     "@orbisclub/components": "^0.1.50",
     "@orbisclub/orbis-sdk": "^0.4.19",
     "@rainbow-me/rainbowkit": "^0.11.0",
     "@types/node": "18.14.3",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
-    "@vocdoni/sdk": "^0.0.4-alpha",
-    "alchemy-sdk": "^2.5.0",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.7",
     "ethereum-blockies-base64": "^1.0.2",
@@ -28,7 +24,6 @@
     "openai": "^3.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-feather": "^2.0.10",
     "react-hot-toast": "^2.4.0",
     "rippleui": "^1.9.0",
     "wagmi": "^0.11.7"
