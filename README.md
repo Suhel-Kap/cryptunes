@@ -73,9 +73,10 @@ This is how we used Orbis.club(SDK) - IPFS( NFT.STORAGE ) - OpenAI (Dalle2)
          **https://github.com/Suhel-Kap/cryptunes/blob/main/pages/ai.tsx**
          <br/>  
 <br />
-  **SmartContract**
- <br />
-  Our contract is deployed and verified on Fantom Testnet here is the FTM Scan Link . 
+
+## SmartContract
+
+Our contract is deployed and verified on Fantom Testnet here is the FTM Scan Link . 
 <br />
 **https://testnet.ftmscan.com/address/0x2c56E76dFD1d6AD399012b8De8c40629A04C56D3**
 <br />
