@@ -43,7 +43,7 @@ export default function NFTCard({nft}: {
         <div className="card card-image-cover relative bg-amber-50">
                                         <span
                                             className="absolute top-3 right-4 badge badge-flat-primary">{nft.metadata.type}</span>
-            <div style={{minWidth: 384}} onClick={() => window.open(`https://ipfs.io/ipfs/${nft.metadata.animation_url}`)}
+            <div style={{minWidth: 384}} onClick={() => window.open(`https://ipfs.io/ipfs/${nft.metadata.animation_url}${nft.metadata.type === "visualizer" ? "/nft.html": ""}`)}
                  className="h-44 flex flex-row items-center justify-center cursor-pointer">
                 <img style={{maxHeight: 177, maxWidth: 384}} src={`https://${nft.metadata.image}.ipfs.nftstorage.link`} alt=""/>
             </div>
