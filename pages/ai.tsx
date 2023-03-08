@@ -84,7 +84,7 @@ export default function AI() {
             }
         })
         const cid = (await res.json()).cid
-        const imageUrl = `https://${cid}.ipfs.nftstorage.link`
+        const imageUrl = `${cid}`
         const metadata = {
             name: form.name,
             image: imageUrl,

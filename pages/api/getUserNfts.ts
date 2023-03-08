@@ -20,7 +20,7 @@ export default async function handler(
     const totalNfts = intNumberFromHexString((await contract.totalSupply())._hex)
     console.log("totalNfts:", totalNfts)
     let nftData = []
-    for (let i = 0; i < totalNfts; i++) {
+    for (let i = 1; i <= totalNfts; i++) {
         const isOwner = intNumberFromHexString((await contract.balanceOf(address, i))._hex)
         console.log("isOwner:", isOwner)
         if (isOwner < 1) continue
