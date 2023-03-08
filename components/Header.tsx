@@ -27,7 +27,7 @@ export default function Header() {
                 <Link passHref href="/ai">
                     <a className="navbar-item link hover:bg-fuchsia-300 underline decoration-orange-500"
                        style={{color: "white"}}>
-                        AI NFT
+                        Create AI NFT
                     </a>
                 </Link>
                 <Link passHref href="/discussions">
