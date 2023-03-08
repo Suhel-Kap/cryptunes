@@ -42,7 +42,7 @@ const Home: NextPage = () => {
                         <h1 className={clsx("text-4xl font-bold text-center text-slate-600 my-4", styles.righteous)}>
                             <span className={clsx("text-purple-700", styles.righteous)}>Cryptunes</span> is a community oriented NFT platform
                         </h1>
-                        <p className="text-xl text-center text-slate-400 my-4 font-sans">
+                        <p className="text-xl text-center text-slate-400 my-4 font-thin">
                             Create your own NFTs, join a community, and connect with other creators.
                         </p>
                         <div className="btn-group my-4">
@@ -69,7 +69,7 @@ const Home: NextPage = () => {
                                         <h1 className={clsx("text-2xl font-bold text-center text-slate-600 my-4", styles.righteous)}>
                                             {point.title}
                                         </h1>
-                                        <p className="text-xl text-center text-slate-400 my-4 font-thin font-sans">
+                                        <p className="text-xl text-center text-slate-400 my-4 font-thin">
                                             {point.body}
                                         </p>
                                     </div>
