@@ -5,7 +5,7 @@ async function main() {
     const Cryptunes = await hre.ethers.getContractFactory('Cryptunes');
     const cryptunes = await Cryptunes.deploy();
 
-    await greeter.deployed();
+    await cryptunes.deployed();
     console.log('Cryptunes deployed to:', cryptunes.address);
 
     await cryptunes.deployTransaction.wait(10);

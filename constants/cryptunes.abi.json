@@ -120,7 +120,7 @@
     {
         "inputs": [{
                 "internalType": "string",
-                "name": "spaceName",
+                "name": "collectionName",
                 "type": "string"
             },
             {
@@ -179,7 +179,7 @@
     {
         "inputs": [{
             "internalType": "string",
-            "name": "spaceName",
+            "name": "collectionName",
             "type": "string"
         }],
         "name": "collectionExists",
@@ -194,7 +194,7 @@
     {
         "inputs": [{
             "internalType": "string",
-            "name": "spaceName",
+            "name": "collectionName",
             "type": "string"
         }],
         "name": "collectionWithdraw",
@@ -205,7 +205,7 @@
     {
         "inputs": [{
                 "internalType": "string",
-                "name": "spaceName",
+                "name": "collectionName",
                 "type": "string"
             },
             {
@@ -215,7 +215,7 @@
             },
             {
                 "internalType": "uint256",
-                "name": "collectionSupply",
+                "name": "collectionTokensSupply",
                 "type": "uint256"
             }
         ],
@@ -232,7 +232,7 @@
             },
             {
                 "internalType": "string",
-                "name": "spaceName",
+                "name": "collectionName",
                 "type": "string"
             },
             {
@@ -254,7 +254,7 @@
     {
         "inputs": [{
                 "internalType": "string",
-                "name": "spaceName",
+                "name": "collectionName",
                 "type": "string"
             },
             {
@@ -271,7 +271,7 @@
     {
         "inputs": [{
             "internalType": "string",
-            "name": "spaceName",
+            "name": "collectionName",
             "type": "string"
         }],
         "name": "getCollectionMaxCap",
@@ -280,23 +280,6 @@
             "name": "",
             "type": "uint256"
         }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "getCollectionsInfo",
-        "outputs": [{
-                "internalType": "string[]",
-                "name": "",
-                "type": "string[]"
-            },
-            {
-                "internalType": "string[]",
-                "name": "",
-                "type": "string[]"
-            }
-        ],
         "stateMutability": "view",
         "type": "function"
     },
@@ -339,7 +322,7 @@
                     "type": "uint256"
                 }
             ],
-            "internalType": "struct CrypTunes.tokenInfo",
+            "internalType": "struct Cryptunes.Token",
             "name": "",
             "type": "tuple"
         }],
@@ -347,9 +330,26 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "getcollectionINFO",
+        "outputs": [{
+                "internalType": "string[]",
+                "name": "",
+                "type": "string[]"
+            },
+            {
+                "internalType": "string[]",
+                "name": "",
+                "type": "string[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [{
             "internalType": "string",
-            "name": "spaceName",
+            "name": "collectionName",
             "type": "string"
         }],
         "name": "getcollectionTokens",
@@ -400,7 +400,7 @@
     {
         "inputs": [{
                 "internalType": "string",
-                "name": "spaceName",
+                "name": "collectionName",
                 "type": "string"
             },
             {
@@ -551,6 +551,23 @@
             "type": "uint256"
         }],
         "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [{
+                "internalType": "address",
+                "name": "newCollectionOwner",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "collectionName",
+                "type": "string"
+            }
+        ],
+        "name": "transferCollectionOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
