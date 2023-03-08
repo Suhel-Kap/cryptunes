@@ -17,7 +17,7 @@ export default async function handler(
         const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/fantom_testnet');
         const signer = provider.getSigner(wallet.address)
         const contract = new ethers.Contract(cryptunesAddress["cryptunesAddress"], cryptunesAbi, signer)
-        const data = await contract.getCollectionsINFO()
+        const data = await contract.getcollectionINFO()
         console.log("data:", data)
         let collections = []
         for (let i = 0; i < data[0].length; i++) {
