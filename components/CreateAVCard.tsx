@@ -161,7 +161,7 @@ export default function CreateAVCard({spaces}: { spaces: string[] }) {
                             </label>
                             <input
                                 type="number"
-                                min={0}
+                                min={0.1}
                                 step={0.1}
                                 required
                                 placeholder="Price"
