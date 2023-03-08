@@ -9,8 +9,10 @@
 
 [Demo video](https://youtu.be)
 
-to run on localhost just run
+to run on localhost just run :
+<br />
 **yarn install**
+<br />
 **yarn dev**
 
 Our application is hosted on that link.
@@ -22,8 +24,8 @@ Authors
  * [Suhel-Kap](https://github.com/Suhel-Kap)
 
 ## Description
-Cryptunes is a decentralized social platform that allows users to create and monetize NFT collections.
-It offers a range of features, including a Decentralized group chat for each Collection, profiles showcasing users' posts and NFTs using DIDs and the Fantom Blockchain.
+Cryptunes is a decentralized social platform that allows users to create and monetize ERC115 NFT collections as a Space.
+Cryptunes offers a range of features, including a Decentralized group chat for each Collection, profiles showcasing users' posts and NFTs using DIDs using the Ceramic Network and the Fantom Blockchain to host our Contract.
 
 The platform supports various NFTs, including :
 
@@ -41,7 +43,7 @@ This is how we used Orbis.club(SDK) - IPFS( NFT.STORAGE ) - OpenAI (Dalle2)
  **Orbis SDK** 
  <br />
  <br />
- The Cryptunes platform uses the orbis SDK, built on the Ceramic network, to power its decentralized social platform. Orbis provides us user profiles, posts, and a     Decentralized discord experience for each Collection. All of this information is stored on the Ceramic network to ensure a decentralized and secure environment. Orbis plays a key role in enabling Cryptunes to function as a decentralized social platform and provide a range of features for users to connect and engage with NFT communities.
+ The Cryptunes platform uses the orbis SDK, built on the Ceramic network, to power its decentralized social platform. Orbis provides us user profiles, posts, and a     Decentralized discord experience for each Collection. All of this information is stored on the Ceramic network to ensure a decentralized and secure environment. Orbis plays a key role in enabling Cryptunes to function as a decentralized social platform and provide a range of features for users to connect and engage with the Cryptuned NFT communities.
         <br />
          **https://github.com/Suhel-Kap/cryptunes/blob/main/pages/api/getSpaces.ts**
          <br/>
@@ -72,9 +74,12 @@ This is how we used Orbis.club(SDK) - IPFS( NFT.STORAGE ) - OpenAI (Dalle2)
          <br/>  
 <br />
   **SmartContract**
-  Our contract is deployed and verified on Fantom Testnet here is the FTM scanner Link . 
+ <br />
+  Our contract is deployed and verified on Fantom Testnet here is the FTM Scan Link . 
 <br />
 **https://testnet.ftmscan.com/address/0x2c56E76dFD1d6AD399012b8De8c40629A04C56D3**
+<br />
+ The Contract repo link :
 <br />
 **https://github.com/Suhel-Kap/cryptunes/blob/main/contract/contracts/Cryptunes.sol**
 <br />
