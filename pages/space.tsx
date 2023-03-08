@@ -126,6 +126,7 @@ export default function Space() {
                 <div className="container p-10">
                     <h1 className="text-2xl font-semibold pt-5 pb-5 mb-5">Welcome
                         to {router.query.name || "this space"}</h1>
+                    <h3 className="text-xl font-semibold pt-5 pb-1 mb-0.5">Creator</h3>
                     <div className="flex flex-row justify-between">
                         <CreatorCard creator={creator}/>
                         <div className="btn-group btn-group-scrollable">
