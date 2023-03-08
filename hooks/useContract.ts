@@ -59,11 +59,6 @@ export const useContract = () => {
         return await tx.wait()
     }
 
-    const getMintPrice = async (tokenid:number) => {
-        return await contract.getTokenMintPrice(tokenid)
-    }
-
-
     const spaceExists = async (spaceName: string) => {
         return await contract.collectionExists(spaceName)
     }
@@ -93,7 +88,7 @@ export const useContract = () => {
     // first array : collectionNames 
     // second array : collectionGroupID
     const getCollections =async () => {
-        return await contract.getCollectionsInfo()
+        return await contract.getcollectionINFO()
     }
 
     const getCollectionMaxCap = async(spaceName: string) => {
@@ -127,7 +122,6 @@ export const useContract = () => {
         isArtistForCollections,
         getCollectionMaxCap,
         mintSpace,
-        getMintPrice,
         mint,
         getToken,
         isSpaceArtist,
