@@ -21,7 +21,7 @@ export default function Header() {
             <div className="navbar-center">
                 <Link passHref href="/create">
                     <a className="navbar-item link hover:bg-fuchsia-300" style={{color: "white"}}>
-                        Create
+                        Create NFT
                     </a>
                 </Link>
                 <Link passHref href="/ai">
@@ -32,12 +32,12 @@ export default function Header() {
                 </Link>
                 <Link passHref href="/discussions">
                     <a className="navbar-item link hover:bg-fuchsia-300" style={{color: "white"}}>
-                        Discussions
+                        Cryptunes Chat
                     </a>
                 </Link>
                 <Link passHref href="/explore">
                     <a className="navbar-item link hover:bg-fuchsia-300" style={{color: "white"}}>
-                        Explore
+                        Explore Collections
                     </a>
                 </Link>
             </div>

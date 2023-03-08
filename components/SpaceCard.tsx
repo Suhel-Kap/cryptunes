@@ -33,7 +33,7 @@ export default function SpaceCard(props: { collection: { name: string, groupId: 
                 <p className="text-content2 text-slate-400">{info?.content?.description}</p>
                 <div className="card-footer">
                     <Link href={`/space?name=${props.collection.name}&groupId=${props.collection.groupId}`}>
-                        <button className="btn-secondary btn">Learn More</button>
+                        <button className="btn-secondary btn">Collection</button>
                     </Link>
                 </div>
             </div>

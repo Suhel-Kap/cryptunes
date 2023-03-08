@@ -81,8 +81,8 @@ export default function CreateSpaceCard() {
         <div className="card bg-rose-100" style={{maxWidth: "35rem"}}>
             <div className="mx-auto flex w-full max-w-sm flex-col gap-1">
                 <div className="card-header mx-auto" style={{marginTop: "2.5rem", flexDirection: "column"}}>
-                    <h2 className="text-stone-900">Create Space</h2>
-                    <p className="text-sm text-slate-100">Make sure you mint a space before minting an NFT</p>
+                    <h2 className="text-stone-900">Create Collection (Space)</h2>
+                    <p className="text-sm text-slate-100">Make sure you create a Collection before creating an NFT</p>
                 </div>
                 <div className="card-body form-group pt-0.5">
                     <form onSubmit={handleSubmit}>
@@ -139,7 +139,7 @@ export default function CreateSpaceCard() {
                             }
                         </div>
                         <div className="form-control">
-                            {!generating && <button type="submit" className="btn bg-pink-600 w-full">Create</button>}
+                            {!generating && <button type="submit" className="btn bg-pink-600 w-full">Create Collection</button>}
                             {generating && <SpinnerButton />}
                         </div>
                     </form>
