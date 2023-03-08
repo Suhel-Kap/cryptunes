@@ -100,7 +100,7 @@ export default function AI() {
             console.log("currentTokenId", currentTokenId)
             const params = {
                 maxSupply: parseInt(form.quantity),
-                mintPrice: parseInt(form.price),
+                mintPrice: parseFloat(form.price),
                 metadataURL: metadataUrl,
                 spaceName: form.space,
             }

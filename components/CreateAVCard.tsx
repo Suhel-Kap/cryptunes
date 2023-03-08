@@ -37,8 +37,8 @@ export default function CreateAVCard({spaces}: { spaces: string[] }) {
         e.preventDefault()
         setGenerating(true)
         // @ts-ignore
-        if(audio?.size > 4 * 1024 * 1024){
-            toast.error("File size should be less than 4 MB");
+        if(audio?.size > 1.2 * 1024 * 1024){
+            toast.error("File size should be less than 1 MB");
             setGenerating(false)
             return;
         }
@@ -87,11 +87,10 @@ export default function CreateAVCard({spaces}: { spaces: string[] }) {
         }
         const metadataUrl = await uploadMetadata(metadata)
         console.log("metadataUrl", metadataUrl)
-
         try{
             const params = {
                 maxSupply: parseInt(form.quantity),
-                mintPrice: parseInt(form.price),
+                mintPrice: parseFloat(form.price),
                 metadataURL: metadataUrl,
                 spaceName: form.space,
             }
@@ -161,7 +160,7 @@ export default function CreateAVCard({spaces}: { spaces: string[] }) {
                             </label>
                             <input
                                 type="number"
-                                min={0}
+                                min={0.1}
                                 step={0.1}
                                 required
                                 placeholder="Price"

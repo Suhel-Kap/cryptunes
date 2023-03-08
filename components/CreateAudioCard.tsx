@@ -51,8 +51,8 @@ export default function CreateAudioCard({spaces}: { spaces: string[] }) {
         e.preventDefault()
         setGenerating(true)
         // @ts-ignore
-        if(audio?.size > 4 * 1024 * 1024){
-            toast.error("File size should be less than 4 MB");
+        if(audio?.size > 1.2 * 1024 * 1024){
+            toast.error("File size should be less than 1 MB");
             return;
         }
         const toastId = toast.loading("Minting NFT...")
@@ -81,7 +81,7 @@ export default function CreateAudioCard({spaces}: { spaces: string[] }) {
             console.log("currentTokenId", currentTokenId)
             const params = {
                 maxSupply: parseInt(form.quantity),
-                mintPrice: parseInt(form.price),
+                mintPrice: parseFloat(form.price),
                 metadataURL: metadataUrl,
                 spaceName: form.space,
             }
