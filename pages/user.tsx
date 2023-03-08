@@ -195,7 +195,7 @@ export default function User() {
                                     data?.map((post, index) => (
                                         <div key={index} className="flex flex-row gap-5 bg-rose-100 h-full rounded-2xl p-4 m-5">
                                             <div className="flex flex-col gap-5">
-                                                <div className="flex flex-row gap-5 items-center text-lg">
+                                                <div className="flex flex-row gap-5 items-center text-gray-100">
                                                     {post.content.body}
                                                 </div>
                                                 <p className="text-gray-100 font-light text-sm">{dayjs.unix(post.timestamp).fromNow()}</p>
