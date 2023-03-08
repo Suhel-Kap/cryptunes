@@ -5,7 +5,7 @@ import CreateTicketCard from "@/components/CreateTicketCard";
 
 export default function Accordion({spaces}: { spaces: string[] }) {
     return (
-        <div className="accordion-group accordion-group-hover rounded-lg" style={{maxWidth: "35rem", width: "35rem"}}>
+        <div className="accordion-group accordion-group-hover rounded-lg" style={{maxWidth: "50rem", width: "50rem"}}>
             <div className="accordion my-3">
                 <input type="checkbox" id="toggle-0" className="accordion-toggle" />
                 <label htmlFor="toggle-0" className="accordion-title text-slate-200 bg-fuchsia-100 rounded-xl border-0" style={{backgroundColor: "rgb(255 247 252)"}}>Dynamic Audio NFT</label>

@@ -106,8 +106,8 @@ export default function CreateAVCard({spaces}: { spaces: string[] }) {
     }
 
     return (
-        <div className="card bg-rose-100" style={{maxWidth: "35rem"}}>
-            <div className="mx-auto flex w-full max-w-sm flex-col gap-1">
+        <div className="card bg-rose-100" style={{maxWidth: "50rem"}}>
+            <div className="mx-auto flex w-full max-w-lg flex-col gap-1">
                 <div className="card-header mx-auto" style={{marginTop: "2.5rem", flexDirection: "column"}}>
                     <h2 className="text-stone-900">Create Dynamic Audio NFT</h2>
                     <p className="text-sm text-slate-100 text-center">You can check out the NFTs below, they will dance according to the sound you choose after creating.</p>

@@ -78,8 +78,8 @@ export default function CreateSpaceCard() {
     }
 
     return (
-        <div className="card bg-rose-100" style={{maxWidth: "35rem"}}>
-            <div className="mx-auto flex w-full max-w-sm flex-col gap-1">
+        <div className="card bg-rose-100" style={{maxWidth: "50rem"}}>
+            <div className="mx-auto flex w-full max-w-lg flex-col gap-1">
                 <div className="card-header mx-auto" style={{marginTop: "2.5rem", flexDirection: "column"}}>
                     <h2 className="text-stone-900">Create Collection (Space)</h2>
                     <p className="text-sm text-slate-100">Make sure you create a Collection before creating an NFT</p>

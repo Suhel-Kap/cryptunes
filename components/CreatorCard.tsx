@@ -1,4 +1,4 @@
-export default function CreatorCard(props: { creator: { did: string, address: string, details: { profile: { pfp: string, username: string, description: string } } } }) {
+export default function CreatorCard(props: any) {
     return (
         <div className="flex w-60 rounded cursor-pointer" onClick={() => window.open(`/user?address=${props.creator.did}`, "_self")}>
             <div className="mr-2 w-16">

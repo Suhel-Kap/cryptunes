@@ -20,6 +20,7 @@ export default function Space() {
     const {addSpaceArtist, deleteSpaceArtist} = useContract()
 
     const [info, setInfo] = useState<any>()
+    const [groupInfo, setGroupInfo] = useState<any>()
     const [creator, setCreator] = useState<any>()
     const [nfts, setNfts] = useState<any[]>()
     const [activeTab, setActiveTab] = useState(1)
@@ -55,6 +56,20 @@ export default function Space() {
                     setCreator(parsed)
                 })
             })
+        }
+    }, [router.query, mounted])
+
+    useEffect(() => {
+        if (mounted && router.query.groupId && !groupInfo) {
+            (async () => {
+                // @ts-ignore
+                let {data, error} = await orbis.getGroup(router.query.groupId)
+                if (error) {
+                    console.log(error)
+                } else {
+                    setGroupInfo(data)
+                }
+            })()
         }
     }, [router.query, mounted])
 
@@ -115,6 +130,8 @@ export default function Space() {
         }
     }
 
+    console.log(groupInfo)
+
     return (
         <>
             <Head>
@@ -124,9 +141,17 @@ export default function Space() {
             </Head>
             <Layout>
                 <div className="container p-10">
-                    <h1 className="text-2xl font-semibold pt-5 pb-5 mb-5">Welcome
-                        to {router.query.name || "this space"}</h1>
-                    <h3 className="text-xl font-semibold pt-5 pb-1 mb-0.5">Creator</h3>
+                    <div className="flex w-60 rounded" style={{minWidth: 600}}>
+                        <div className="mr-2 w-24">
+                            <img className="rounded-full h-32"
+                                 src={`https://${groupInfo?.content?.pfp}.ipfs.nftstorage.link`} alt=""/>
+                        </div>
+                        <div className="flex flex-col justify-center items-center ">
+                            <h1 className="text-4xl font-bold">Welcome to {router?.query?.name}</h1>
+                            <p className="text-content text-xl">{groupInfo?.content?.description}</p>
+                        </div>
+                    </div>
+                    <h3 className="font-semibold pt-5 pb-1 mb-0.5">Created by</h3>
                     <div className="flex flex-row justify-between">
                         <CreatorCard creator={creator}/>
                         <div className="btn-group btn-group-scrollable">

@@ -4,7 +4,6 @@ import makeBlockie from "ethereum-blockies-base64";
 import Link from "next/link";
 import {useAccount} from "wagmi";
 import Connect from "@/components/Conenct";
-import {add} from "@noble/hashes/_u64";
 import {useOrbisContext} from "../contexts/OrbisContext";
 
 export default function Header() {
