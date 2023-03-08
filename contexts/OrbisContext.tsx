@@ -14,7 +14,7 @@ export const useOrbisContext = () => useContext(OrbisContext)
 export const OrbisProvider = ({ children }: any) => {
     let orbis = new Orbis();
     const GROUP_ID = "kjzl6cwe1jw14axp80vka5y7ca38y09datmcu4bz0tz8xzntvn9la91292wfnhb"
-    const CHANNEL_ID = "kjzl6cwe1jw14b9kogz1as83u05pswa5fs4pzbejlr55f8njn108punvyyrymk5"
+    const CHANNEL_ID = "kjzl6cwe1jw147mzvzl256munwblyxczm01534guqvfr7c0duzgtxpg5hvcx8sy"
 
     const [user, setUser] = useState(null)
     const {isConnected, isConnecting, isDisconnected} = useAccount()

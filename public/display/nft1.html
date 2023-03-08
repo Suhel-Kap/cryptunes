@@ -2,21 +2,25 @@
 <html lang="en" class="no-js">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Visualizer_4</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Cryptunes Visualiser</title>
     <!-- <link rel="stylesheet" type="text/css" href="css/demo.css" /> -->
     <script>
         document.documentElement.className = "js"
     </script>
 </head>
 
-<body class="The Crypto Studio" style="overflow: hidden">
+<body class="Cryptunes" style="overflow: hidden">
 <main class="site-wrapper"></main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.js" integrity="sha512-+tu0+vUXyZX+S51npa//IN6znNTLZsBoy8mXn9WzHxfBqYMy6gOzzfTK0VqZf9O171RY9AJviHDokCnvEq8+1A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.js"
+        integrity="sha512-+tu0+vUXyZX+S51npa//IN6znNTLZsBoy8mXn9WzHxfBqYMy6gOzzfTK0VqZf9O171RY9AJviHDokCnvEq8+1A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://unpkg.com/p5.touchgui-fork@0.7.1/lib/p5.touchgui.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.js" integrity="sha512-TU9AWtV5uUZPX8dbBAH8NQF1tSdigPRRT82vllAQ1Ke28puiqLA6ZVKxtUGlgrH6yWFnkKy+sE6luNEGH9ar0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.js"
+        integrity="sha512-TU9AWtV5uUZPX8dbBAH8NQF1tSdigPRRT82vllAQ1Ke28puiqLA6ZVKxtUGlgrH6yWFnkKy+sE6luNEGH9ar0A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
     class Particle {
@@ -117,14 +121,14 @@ SETUP
 
     function preload() {
         getStorage()
-        audio = loadSound("../preview.mp3")
+        audio = loadSound("https://bafybeifcqc464apz2loxgrkhqksx2yqchshq4ntsa6dekuubofl4jkoylm.ipfs.nftstorage.link")
     }
 
     // loader του νέου mp3 file απο το file system
     function uploaded(file) {
         uploadLoading = true
         uploadedAudio = loadSound(
-            "../preview.mp3",
+            "https://bafybeifcqc464apz2loxgrkhqksx2yqchshq4ntsa6dekuubofl4jkoylm.ipfs.nftstorage.link",
             uploadedAudioPlay
         )
     }

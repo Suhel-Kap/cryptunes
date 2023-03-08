@@ -5,7 +5,7 @@ export default async function uploadAudio(audio: File, name: string, description
     const content = await audio?.arrayBuffer()
     const buf = Buffer.from(content!)
     let temp = {
-        name: name + ".png",
+        name: name + ".mp3",
         buffer: buf,
     }
     filesTemp.push(temp)

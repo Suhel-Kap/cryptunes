@@ -65,10 +65,22 @@ export default function CreateAVCard({spaces}: { spaces: string[] }) {
         }
         const audioCid = await uploadAudio(audio!, form.name, form.description)
         console.log("audioCid", audioCid)
+        const updateHtmlResponse = await fetch("/api/audioVisual", {
+            method: "POST",
+            body: JSON.stringify({
+                selectedNft,
+                audioCid,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+        const updateHtml = await updateHtmlResponse.json()
+        const updatedHtmlCid = updateHtml.cid
         const metadata = {
             name: form.name,
             image: image,
-            animation_url: audioCid,
+            animation_url: updatedHtmlCid,
             description: form.description,
             type: "visualizer",
             attributes: form.attributes
@@ -77,8 +89,6 @@ export default function CreateAVCard({spaces}: { spaces: string[] }) {
         console.log("metadataUrl", metadataUrl)
 
         try{
-            const currentTokenId = await getCurrentTokenId()
-            console.log("currentTokenId", currentTokenId)
             const params = {
                 maxSupply: parseInt(form.quantity),
                 mintPrice: parseInt(form.price),
@@ -252,7 +262,7 @@ export default function CreateAVCard({spaces}: { spaces: string[] }) {
                                         <input type={"radio"} className="radio" value={"1"}
                                                onChange={(e) => handleSelectChange(e)}/>
                                         <iframe
-                                            src={"https://the-crypto-studio.vercel.app/display/nft1.html"}
+                                            src={"/display/nft1.html"}
                                             sandbox="allow-same-origin allow-scripts allow-forms"
                                             height="350px"
                                             width="350px"
@@ -267,7 +277,7 @@ export default function CreateAVCard({spaces}: { spaces: string[] }) {
                                         <input type={"radio"} className="radio" value={"2"}
                                                onChange={(e) => handleSelectChange(e)}/>
                                         <iframe
-                                            src={"https://the-crypto-studio.vercel.app/display/nft2.html"}
+                                            src={"/display/nft2.html"}
                                             sandbox="allow-same-origin allow-scripts allow-forms"
                                             height="350px"
                                             width="350px"
@@ -282,7 +292,7 @@ export default function CreateAVCard({spaces}: { spaces: string[] }) {
                                         <input type={"radio"} className="radio" value={"3"}
                                                onChange={(e) => handleSelectChange(e)}/>
                                         <iframe
-                                            src={"https://the-crypto-studio.vercel.app/display/nft3.html"}
+                                            src={"/display/nft3.html"}
                                             sandbox="allow-same-origin allow-scripts allow-forms"
                                             height="350px"
                                             width="350px"
@@ -297,7 +307,7 @@ export default function CreateAVCard({spaces}: { spaces: string[] }) {
                                         <input type={"radio"} className="radio" value={"4"}
                                                onChange={(e) => handleSelectChange(e)}/>
                                         <iframe
-                                            src={"https://the-crypto-studio.vercel.app/display/nft4.html"}
+                                            src={"/display/nft4.html"}
                                             sandbox="allow-same-origin allow-scripts allow-forms"
                                             height="350px"
                                             width="350px"
@@ -312,7 +322,7 @@ export default function CreateAVCard({spaces}: { spaces: string[] }) {
                                         <input type={"radio"} className="radio" value={"5"}
                                                onChange={(e) => handleSelectChange(e)}/>
                                         <iframe
-                                            src={"https://the-crypto-studio.vercel.app/display/nft5.html"}
+                                            src={"/display/nft5.html"}
                                             sandbox="allow-same-origin allow-scripts allow-forms"
                                             height="350px"
                                             width="350px"

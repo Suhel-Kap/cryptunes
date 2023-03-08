@@ -21,6 +21,9 @@ export default async function handler(
     console.log("totalNfts:", totalNfts)
     let nftData = []
     for (let i = 0; i < totalNfts; i++) {
+        const isOwner = intNumberFromHexString((await contract.balanceOf(address, i))._hex)
+        console.log("isOwner:", isOwner)
+        if (isOwner < 1) continue
         const nft = await contract.getToken(i)
         if (nft[2].toLowerCase() === address) {
             let data_ = {price: "", tokenId: 0, availableTokens: 0, maxCap: 0, metadata: {}}

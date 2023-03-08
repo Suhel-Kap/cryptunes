@@ -45,7 +45,7 @@ export default function NFTCard({nft}: {
                                             className="absolute top-3 right-4 badge badge-flat-primary">{nft.metadata.type}</span>
             <div onClick={() => window.open(`https://${nft.metadata.animation_url}.ipfs.nftstorage.link`)}
                  className="h-44 flex flex-row items-center justify-center cursor-pointer">
-                <img style={{maxHeight: 225, maxWidth: 384}} src={`https://${nft.metadata.image}.ipfs.nftstorage.link`} alt=""/>
+                <img style={{maxHeight: 177, maxWidth: 384}} src={`https://${nft.metadata.image}.ipfs.nftstorage.link`} alt=""/>
             </div>
             <div className="card-body">
                 <h2 className="card-header text-slate-600">{nft.metadata.name}</h2>
