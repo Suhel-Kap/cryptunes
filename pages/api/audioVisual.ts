@@ -38,5 +38,5 @@ export default async function handler(
     const client = new NFTStorage({endpoint, token})
     const cid = await client.storeDirectory(files)
     console.log(cid)
-    res.status(200).json({"cid": `https://${cid}.ipfs.nftstorage.link/nft.html`})
+    res.status(200).json({"cid": cid})
 }
