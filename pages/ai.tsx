@@ -16,6 +16,7 @@ export default function AI() {
     const [generating, setGenerating] = useState<boolean>(false)
     const mounted = useIsMounted()
     const [spaces, setSpaces] = useState<any>(["No Spaces"])
+    const [hasSpaces, setHasSpaces] = useState<boolean>(false)
     const initalForm = {
         name: "",
         description: "",
@@ -40,16 +41,22 @@ export default function AI() {
             }
         }).then(res => res.json())
             .then(data => {
-                setSpaces(["Select Space", ...data])
+                if (data.length > 0) {
+                    setSpaces(["Select Space", ...data])
+                    setHasSpaces(true)
+                } else {
+                    setSpaces(["No Spaces"])
+                    setHasSpaces(false)
+                }
             })
     }, [mounted, address])
 
     useEffect(() => {
-        if(isDisconnected){
+        if (isDisconnected) {
             alert("Please connect your wallet to continue")
             window.location.href = "/"
         }
-    }, [isConnected,isDisconnected])
+    }, [isConnected, isDisconnected])
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
@@ -70,8 +77,18 @@ export default function AI() {
     const handleFormSubmit = async (e: any) => {
         e.preventDefault()
         setGenerating(true)
+        if (!image) {
+            toast.error("Please select an image")
+            setGenerating(false)
+            return
+        }
+        if (!hasSpaces) {
+            toast.error("Please create a space first")
+            setGenerating(false)
+            return
+        }
         const toastId = toast.loading("Minting NFT...")
-        if(!image){
+        if (!image) {
             toast.error("Please select an image", {id: toastId})
             setGenerating(false)
             return
@@ -95,7 +112,7 @@ export default function AI() {
         }
         const metadataUrl = await uploadMetadata(metadata)
         console.log("metadataUrl", metadataUrl)
-        try{
+        try {
             const currentTokenId = await getCurrentTokenId()
             console.log("currentTokenId", currentTokenId)
             const params = {
@@ -109,7 +126,7 @@ export default function AI() {
             toast.success("NFT Minted", {id: toastId})
             setForm(initalForm)
             setGenerating(false)
-        } catch (e){
+        } catch (e) {
             toast.error("Something went wrong", {id: toastId})
             console.log(e)
         }
@@ -143,14 +160,15 @@ export default function AI() {
                                 />
                             </div>
                             <div className="form-field my-2">
-                                {generating && <SpinnerButton />}
-                                {!generating && <button type="submit" className="btn btn-primary btn-block">Generate</button>}
+                                {generating && <SpinnerButton/>}
+                                {!generating &&
+                                    <button type="submit" className="btn btn-primary btn-block">Generate</button>}
                             </div>
                         </form>
                         {
                             image &&
                             <div className="flex flex-col">
-                                <Image src={image} alt={"Generated image"} height={512} width={512} />
+                                <Image src={image} alt={"Generated image"} height={512} width={512}/>
                                 <form onSubmit={handleFormSubmit}>
                                     <div className="form-field my-2">
                                         <label className="block text-sm font-medium text-slate-500">
@@ -258,7 +276,8 @@ export default function AI() {
                                                                 setForm({...form, attributes})
                                                             }}
                                                     >
-                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20"
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5"
+                                                             viewBox="0 0 20 20"
                                                              fill="currentColor">
                                                             <path fillRule="evenodd"
                                                                   d="M10 5a1 1 0 011 1v4h4a1 1 0 110 2h-4v4a1 1 0 11-2 0v-4H5a1 1 0 110-2h4V6a1 1 0 011-1z"
@@ -272,7 +291,8 @@ export default function AI() {
                                                                 attributes.splice(index, 1)
                                                                 setForm({...form, attributes})
                                                             }}>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20"
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5"
+                                                             viewBox="0 0 20 20"
                                                              fill="currentColor">
                                                             <path fillRule="evenodd"
                                                                   d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
@@ -284,8 +304,9 @@ export default function AI() {
                                         </div>
                                     </div>
                                     <div className="form-control">
-                                        {!generating && <button type="submit" className="btn bg-pink-600 w-full">Create</button>}
-                                        {generating && <SpinnerButton />}
+                                        {!generating &&
+                                            <button type="submit" className="btn bg-pink-600 w-full">Create</button>}
+                                        {generating && <SpinnerButton/>}
                                     </div>
                                 </form>
                             </div>
