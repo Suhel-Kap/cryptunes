@@ -13,7 +13,7 @@ export default async function handler(
     const {address} = req.body
     console.log("address:", address)
     const wallet = new ethers.Wallet(getPrivateKey()!)
-    const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/fantom_testnet');
+    const provider = new ethers.providers.JsonRpcProvider('https://rpc.testnet.mantle.xyz');
     const signer = provider.getSigner(wallet.address)
     const contract = new ethers.Contract(cryptunesAddress["cryptunesAddress"], cryptunesAbi, signer)
     const spaces = await contract.isArtistForCollections(address)

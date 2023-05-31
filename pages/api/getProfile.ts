@@ -10,7 +10,7 @@ export default async function handler(
     const {did} = req.body
     console.log(did)
     const orbis = new Orbis()
-    const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/fantom_testnet');
+    const provider = new ethers.providers.JsonRpcProvider('https://rpc.testnet.mantle.xyz');
     await orbis.connect_v2({
         provider: provider,
         lit: false

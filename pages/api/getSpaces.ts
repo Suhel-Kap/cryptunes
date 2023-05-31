@@ -14,7 +14,7 @@ export default async function handler(
 ) {
     if (req.method === "GET") {
         const wallet = new ethers.Wallet(getPrivateKey()!)
-        const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/fantom_testnet');
+        const provider = new ethers.providers.JsonRpcProvider('https://rpc.testnet.mantle.xyz');
         const signer = provider.getSigner(wallet.address)
         const contract = new ethers.Contract(cryptunesAddress["cryptunesAddress"], cryptunesAbi, signer)
         const data = await contract.getcollectionINFO()
