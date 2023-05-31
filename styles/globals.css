@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+
+* {
+  box-sizing: border-box;
+  font-family: 'Questrial', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}
+
+.rainbow-mesh {
+  background-color: hsla(0, 100%, 50%, 1);
+  background-image: linear-gradient(295deg, #e94560 0%, #533483 33%, #0f3460 66%, #16213e 100%);
+}
+
+.candy-mesh {
+  background-color: #ff99ee;
+  background-image: linear-gradient(295deg, #e94560 0%, #533483 33%, #0f3460 66%, #16213e 100%);
+}
+
+.glass {
+  backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.bg-rose-100 {
+  --tw-bg-opacity: 0.65;
+}
+
+.card {
+  --tw-bg-opacity: 0.65;
+}

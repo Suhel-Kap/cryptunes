@@ -20,8 +20,8 @@ Our application is hosted on that link.
 
 
 Authors
- * [nijoe1](https://github.com/nijoe1)
  * [Suhel-Kap](https://github.com/Suhel-Kap)
+ * [nijoe1](https://github.com/nijoe1)
 
 ## Description
 Cryptunes is a decentralized social platform that allows users to create and monetize ERC115 NFT collections as a Space.
@@ -76,9 +76,9 @@ This is how we used Orbis.club(SDK) - IPFS( NFT.STORAGE ) - OpenAI (Dalle2)
 
 ## SmartContract
 
-Our contract is deployed and verified on Fantom Testnet here is the FTM Scan Link . 
+Our contract is deployed and verified on Mantle Testnet here is the Testnet Explorer Link . 
 <br />
-**https://testnet.ftmscan.com/address/0x2c56E76dFD1d6AD399012b8De8c40629A04C56D3**
+**https://explorer.testnet.mantle.xyz/address/0x21686216b87030b3270b1D91901929F45d0F0138/**
 <br />
  The Contract repo link :
 <br />
