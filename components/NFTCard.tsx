@@ -54,7 +54,7 @@ export default function NFTCard({nft}: {
                 <div className="card-footer">
                     <button disabled={isMinting} onClick={handleMint}
                             className={`btn-error btn ${isMinting ? "cursor-wait" : ""}`}>
-                        Mint for {nft.price} FTM
+                        Mint for {nft.price} BIT
                     </button>
                     <label className="btn btn-primary" htmlFor={nft.metadata.name}>View Attributes</label>
 
